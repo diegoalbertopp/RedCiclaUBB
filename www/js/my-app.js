@@ -78,8 +78,14 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
     console.log(e);
 });
 
+/*
+* @param
+* @return
+*/
+
 var map;
 var marcador;
+
   function initMap() {
 
     var map;
@@ -105,7 +111,7 @@ var marcador;
     });
 
 
-    // Multiple markers location, latitude, and longitude
+    // Multiples mascadores del mapa con su latitud y longitud
 
     var markers = [
         ['Plaza de armas de Chillán', -36.6066399, -72.1034393],
@@ -113,7 +119,7 @@ var marcador;
         ['Plaza de la Victoria', -36.609287, -72.109237]
     ];
 
-    // Info window content
+    // Despliega la información de los contendedores de cada marcador
     var infoWindowContent = [
         ['<div class="info_content">' +
         '<h3>Plaza de armas de Chillán</h3>' +
@@ -131,9 +137,10 @@ var marcador;
         '</div>']
     ];
 
-     // Add multiple markers to map
+     // Agrega los marcadores al mapa
     var infoWindow = new google.maps.InfoWindow(), marker, i;
-    // Place each marker on the map
+    // Coloca cada marcador en el mapa
+    //@param marker: agrega como parametro la posición, el mapa, el icono que aparecerá en el mapa y titulo.
     for( i = 0; i < markers.length; i++ ) {
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
@@ -153,14 +160,14 @@ var marcador;
           });
         }
 
-        // Add info window to marker
+        // Agrega la información a los marcadores
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
             }
         })(marker, i));
-        // Center the map to fit all markers on the screen
+
         map.fitBounds(bounds);
     }
     //Añadir marcador
@@ -170,6 +177,11 @@ var marcador;
     });*/
   }
 
+  /*
+  * @param
+  * @return
+  */
+
     function placeMarkerAndPanTo(latLng, map) {
         var marker = new google.maps.Marker({
             position: latLng,
@@ -177,7 +189,13 @@ var marcador;
         });
         map.panTo(latLng);
     }
-//Uso del GPS
+
+
+/*
+* @param Position Este método acepta un objeto Position, que contiene las coordenadas GPS actuales.
+* @return lanza por consola la información sobre posición actual en el mapa
+*/
+
     function funcionExito(position){
         console.log('latitude: '          + position.coords.latitude);
         console.log('longitude: '         + position.coords.longitude);
@@ -193,12 +211,16 @@ var marcador;
         $$("#lgn").html(position.coords.longitude);
 
         var pos = {lat: position.coords.latitude , lng: position.coords.longitude};
+
         map.setCenter(pos);
         map.setZoom(17);
         marcador.setPosition(pos);
-
     }
 
+/*
+* @param error : recibe un objeto PositionError
+* @return muestra por consola el mensaje de error
+*/
     function funcionError(error) {
         console.log("hubo un error");
     }
@@ -208,6 +230,13 @@ var marcador;
         enableHighAccuracy: true
     }
 
+/* Inicializar la barra de búsqueda con parámetros
+* @param el: Selector de CSS o elemento HTML del elemento de la barra de búsqueda (form class="searchbar")
+         searchContainer: Selector de CSS o elemento HTML del bloque de lista para buscar.
+         searchIn: Selector de CSS del campo del elemento Vista de lista donde debemos buscar.
+  @return
+*
+*/
     var searchbar = app.searchbar.create({
       el: '.searchbar',
       searchContainer: '.list',
@@ -220,21 +249,8 @@ var marcador;
     });
 
 
-
-
-
-
-
-
-    // DOM events for my-sheet sheet
-$$('.my-sheet').on('sheet:open', function (e, sheet) {
-  console.log('my-sheet open');
-});
-$$('.my-sheet').on('sheet:opened', function (e, sheet) {
-  console.log('my-sheet opened');
-});
-
-// Create dynamic Sheet
+// Crear dynamic Sheet
+// @param  texto HTML par sheet dynamic. Puede ser útil si desea crear elementos sheet dinámicamente.
 var dynamicSheet = app.sheet.create({
   content: '<div class="sheet-modal">'+
               '<div class="toolbar">'+
@@ -252,7 +268,7 @@ var dynamicSheet = app.sheet.create({
                 '</div>'+
               '</div>'+
             '</div>',
-  // Events
+  // Eventos para abrir y cerra sheet
   on: {
     open: function (sheet) {
       console.log('Sheet open');
@@ -261,34 +277,4 @@ var dynamicSheet = app.sheet.create({
       console.log('Sheet opened');
     },
   }
-});
-// Events also can be assigned on instance later
-dynamicSheet.on('close', function (sheet) {
-  console.log('Sheet close');
-});
-dynamicSheet.on('closed', function (sheet) {
-  console.log('Sheet closed');
-});
-
-// Open dynamic sheet
-$$('.dynamic-sheet').on('click', function () {
-  // Close inline sheet before
-  app.sheet.close('.my-sheet');
-
-  // Open dynamic sheet
-  dynamicSheet.open();
-});
-
-// Create swipe-to-close Sheet
-app.sheet.create({
-  el: '.my-sheet-swipe-to-close',
-  swipeToClose: true,
-  backdrop: true,
-});
-// Create swipe-to-step Sheet
-app.sheet.create({
-  el: '.my-sheet-swipe-to-step',
-  swipeToClose: true,
-  swipeToStep: true,
-  backdrop: true,
 });
