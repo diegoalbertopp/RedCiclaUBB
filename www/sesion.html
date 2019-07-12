@@ -1,5 +1,5 @@
 <div class="view view-main view-init">
-  <div class="page">
+  <div class="page" data-name="sesion">
     <div class="page-content">
       <div class="row" style="background-color: #FFFFFF">
         <a href="#" class="link back">
@@ -24,7 +24,7 @@
               <div class="item-inner">
                 <div class="item-title item-label">Usuario</div>
                 <div class="item-input-wrap">
-                  <input type="text" name="username" placeholder="Ingrese usuario">
+                  <input id="nick" type="text" name="email" placeholder="Ingrese usuario">
                 </div>
               </div>
             </li>
@@ -32,7 +32,7 @@
               <div class="item-inner">
                 <div class="item-title item-label">Contraseña</div>
                 <div class="item-input-wrap">
-                  <input type="password" name="password" placeholder="Ingrese contraseña">
+                  <input id="pass" type="password" name="password " placeholder="Ingrese contraseña">
                 </div>
               </div>
             </li>
@@ -40,7 +40,7 @@
         </div>
         <div class="list">
           <ul>
-            <li><a id=titulo class="item-link list-button no-ripple" href="#"><center>Iniciar sesión</center></a></li>
+            <li><a id=loginButton class="item-link list-button no-ripple link back" onclick="enviarLogin()"><center>Iniciar sesión</center></a></li>
           </ul>
         </div>
       </form>

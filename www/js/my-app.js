@@ -523,3 +523,40 @@ var dynamicSheet = app.sheet.create({
     },
   }
 });
+
+var notificationFull = app.notification.create({
+  icon: '<i class="icon demo-icon">7</i>',
+  title: 'Framework7',
+  titleRightText: 'now',
+  subtitle: 'This is a subtitle',
+  text: 'This is a simple notification message',
+  closeTimeout: 3000,
+});
+
+function enviarLogin(){
+  console.log("paso por login");
+  var fnick= document.getElementById("nick").value;
+  var fpass= document.getElementById("pass").value;
+
+  console.log(fnick);
+  console.log(fpass);
+  document.getElementById("nick").value="";
+  document.getElementById("pass").value="";
+  $.ajax({
+      type:"POST",
+      url: "http://localhost/sosappweb/login",
+      data: ({nick: fnick, pass: fpass}),
+      cache: false,
+      dataType: "text",
+      success:  function(data){
+        alert(data);
+         var mensaje= data;
+         console.log(mensaje);
+           if(mensaje == "Ha iniciado sesión"){
+            notificationFull.open();
+          }
+
+      }
+  });
+
+};
