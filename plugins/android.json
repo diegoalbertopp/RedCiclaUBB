@@ -9,6 +9,9 @@
   "installed_plugins": {
     "cordova-plugin-geolocation": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   },
   "dependent_plugins": {}
