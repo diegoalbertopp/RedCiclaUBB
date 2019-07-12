@@ -61,6 +61,7 @@ var mainView = app.views.create('.view-main');
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
+    app.router.navigate("/sesion/");
     console.log("Device is ready!");
     console.log("El dispositivo está listo");
     var watchID = navigator.geolocation.watchPosition(funcionExito,funcionError,opcionesGPS);
@@ -358,26 +359,44 @@ var styledMapType;
     var markers = [
         ['Plaza de armas de Chillán', -36.6066399, -72.1034393],
         ['Mercado de Chillán', -36.611225, -72.101654],
-        ['Plaza de la Victoria', -36.609287, -72.109237]
+        ['Plaza de la Victoria', -36.609287, -72.109237],
+        ['UBB Fernando May', -36.60016041947743, -72.07593142605032],
+        ['Hospital Herminda Martín', -36.60883243832269, -72.09114217109413]
     ];
 
     // Despliega la información de los contendedores de cada marcador
     var infoWindowContent = [
         ['<div class="info_content">' +
+        '<img src="http://cdn.plataformaurbana.cl/wp-content/uploads/2015/08/plaza-de-armas-de-chilla-fuente-imagen-municipalidad-de-chillan-1000x665.jpg" width = "200" heigth = "100" >' +
         '<h3>Plaza de armas de Chillán</h3>' +
         '<p>Tipo de contenedor: vidrio</p>'+
         '<p>Porcentaje de llenado: 55%</p>' + '</div>'],
         ['<div class="info_content">' +
+        '<img src="https://media-cdn.tripadvisor.com/media/photo-s/04/59/43/f5/mercado-de-chillan.jpg" width = "200" heigth = "100" >' +
         '<h3>Mercado de Chillán</h3>' +
         '<p>Tipo de contenedor: vidrio</p>'+
         '<p>Porcentaje de llenado: 75%</p>' +
         '</div>'],
         ['<div class="info_content">' +
+        '<img src="https://www.municipalidadchillan.cl/sitio/img/fotos/plazas/plaza-victoria-max.jpg" width = "200" heigth = "100" >' +
         '<h3>Plaza de la Victoria</h3>' +
         '<p>Tipo de contenedor: vidrio</p>'+
         '<p>Porcentaje de llenado: 10%</p>' +
+        '</div>'],
+        ['<div class="info_content">' +
+        '<img src="http://noticias.ubiobio.cl/wp-content/uploads//MG_4360.jpg" width = "200" heigth = "100" >' +
+        '<h3>UBB Fernando May</h3>' +
+        '<p>Tipo de contenedor: vidrio</p>'+
+        '<p>Porcentaje de llenado: 60%</p>' +
+        '</div>'],
+        ['<div class="info_content">' +
+        '<img src="https://img.soy-chile.cl/Fotos/2012/12/14/file_20121214171254.jpg" width = "200" heigth = "100" >' +
+        '<h3>Hospital Herminda Martín</h3>' +
+        '<p>Tipo de contenedor: vidrio</p>'+
+        '<p>Porcentaje de llenado: 70%</p>' +
         '</div>']
     ];
+
 
 
      // Agrega los marcadores al mapa
@@ -524,14 +543,6 @@ var dynamicSheet = app.sheet.create({
   }
 });
 
-var notificationFull = app.notification.create({
-  icon: '<i class="icon demo-icon">7</i>',
-  title: 'Framework7',
-  titleRightText: 'now',
-  subtitle: 'This is a subtitle',
-  text: 'This is a simple notification message',
-  closeTimeout: 3000,
-});
 
 function enviarLogin(){
   console.log("paso por login");
@@ -552,9 +563,9 @@ function enviarLogin(){
         alert(data);
          var mensaje= data;
          console.log(mensaje);
-           if(mensaje == "Ha iniciado sesión"){
-            notificationFull.open();
-          }
+         if (mensaje=="Ha iniciado sesión") {
+           app.router.navigate("/index/");
+         }
 
       }
   });
