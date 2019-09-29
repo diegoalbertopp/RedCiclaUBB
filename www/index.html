@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <style type="text/css">
-      #menu{
-          margin: 10px;
-      }
-      #titulo{
-          margin: auto;
-      }
-  </style>
-  <!--
+    <style type="text/css">
+        #menu {
+            margin: 10px;
+        }
+        
+        #titulo {
+            margin: auto;
+        }
+    </style>
+    <!--
       Customize this policy to fit your own app's needs. For more guidance, see:
           https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
       Some notes:
@@ -18,73 +20,82 @@
           * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
               * Enable inline JS: add 'unsafe-inline' to default-src
       -->
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
-  <!-- Required meta tags-->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <!-- Color theme for statusbar -->
-  <meta name="theme-color" content="#2196f3">
-  <!-- Your app title -->
-  <title>RedCicla</title>
-  <!-- Path to Framework7 Library CSS -->
-  <link rel="stylesheet" href="lib/framework7/css/framework7.min.css">
-  <!-- Path to your custom app styles-->
-  <link href="css/style.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <title>RedCicla</title>
+    <!-- Path to Framework7 Library CSS -->
+    <link rel="stylesheet" href="lib/framework7/css/framework7.min.css">
+    <!-- Path to your custom app styles-->
+    <link href="css/style.css">
 </head>
+
 <body>
-  <div id="app">
-    <!-- Statusbar overlay -->
+    <div id="app">
+        <!-- Statusbar overlay -->
 
-    <div class="panel panel-left panel-cover">
+        <div class="panel panel-left panel-cover">
 
-      <div class="block">
-        <center><img src="img\escudo.png" ></center>
-        <div class="list links-list">
-          <ul>
-            <li><a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\notification.png" >Notificaciones</a></li>
-            <li><a href="index" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png" >Volver al mapa</a></li>
-          <!--  <li><a href="/misiones/" data-view=".page-content" class="panel-close">Misiones </a></li>-->
-          </ul>
+            <div class="block">
+                <center><img src="img\escudo.png"></center>
+                <div class="list links-list">
+                    <ul>
+                        <li>
+                            <a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\notification.png">Notificaciones</a>
+                        </li>
+                        <li>
+                            <a href="index" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png">Volver al mapa</a>
+                        </li>
+                        <!--  <li><a href="/misiones/" data-view=".page-content" class="panel-close">Misiones </a></li>-->
+                    </ul>
+                </div>
+                <div class="list links-list">
+                    <ul>
+                        <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
+                        <li>
+                            <a href="/lista/" data-view=".page-content" class="panel-close no-ripple"><img src="img\placeholder.png">Puntos de reciclaje</a>
+                        </li>
+                        <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
+                        <li>
+                            <a href="/ayuda/" data-view=".page-content" class="panel-close no-ripple"><img src="img\colors.png">Contenedores</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="list links-list">
-          <ul>
-          <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
-            <li><a href="/lista/" data-view=".page-content" class="panel-close no-ripple"><img src="img\placeholder.png" >Puntos de reciclaje</a></li>
-            <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
-            <li><a href="/ayuda/" data-view=".page-content" class="panel-close no-ripple"><img src="img\colors.png" >Contenedores</a></li>
-          </ul>
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main view-init">
+            <div class="page">
+                <div class="page-content">
+                    <div class="row" style="background-color: #FFFFFF">
+                        <div id="menu" class="panel-open col-md-2">
+                            <img src="img\menu.png">
+                        </div>
+                        <div id="titulo" class="col-md-8">
+                            <img src="img\escudo.png">
+                        </div>
+                        <div id="menu" class="col-md-2">
+                            <img src="img\photo-camera.png">
+                        </div>
+                    </div>
+                    <div class="page-content">
+                        <div id="map" style="height: 90%; "></div>
+
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <!-- Your main view, should have "view-main" class -->
-    <div class="view view-main view-init">
-      <div class="page">
-        <div class="page-content">
-          <div class="row" style="background-color: #FFFFFF">
-            <div id="menu" class="panel-open col-md-2">
-              <img src="img\menu.png" >
-            </div>
-            <div id="titulo" class="col-md-8">
-              <img src="img\escudo.png" >
-            </div>
-            <div id="menu" class="col-md-2">
-              <img src="img\photo-camera.png" >
-            </div>
-          </div>
-          <div class="page-content">
-            <div id="map" style="height: 90%; "></div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_QWEN6lli9eIa8tfjkyJNixXCFkyA6sc&callback=initMap"
-  async defer></script>
-  <script type="text/javascript" src="js/my-app.js"></script>
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCW_VGcawF7VsDbXq243yfV8XIfNJbJVpY&callback=initMap" async defer></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 </body>
+
 </html>
