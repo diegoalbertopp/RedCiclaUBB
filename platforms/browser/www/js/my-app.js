@@ -1,6 +1,7 @@
 // Initialize app
 var myApp = new Framework7();
 
+
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
@@ -77,6 +78,7 @@ var marcador;
 var styledMapType;
 
   function initMap() {
+   mediciones();
     var icon;
     var bounds = new google.maps.LatLngBounds();
     var mapOptions = {
@@ -543,31 +545,53 @@ var dynamicSheet = app.sheet.create({
   }
 });
 
-
-function enviarLogin(){
-  console.log("paso por login");
-  var fnick= document.getElementById("nick").value;
-  var fpass= document.getElementById("pass").value;
-
-  console.log(fnick);
-  console.log(fpass);
-  document.getElementById("nick").value="";
-  document.getElementById("pass").value="";
-  $.ajax({
-      type:"POST",
-      url: "http://localhost/sosappweb/login",
-      data: ({nick: fnick, pass: fpass}),
-      cache: false,
-      dataType: "text",
-      success:  function(data){
-        alert(data);
-         var mensaje= data;
-         console.log(mensaje);
-         if (mensaje=="Ha iniciado sesión") {
-           app.router.navigate("/index/");
-         }
-
-      }
-  });
+  function getMediciones(){
+ 
+  //  var fnick= document.getElementById("nick").value;
+    //var fpass= document.getElementById("pass").value;
+  
+    //console.log(fnick);
+    //console.log(fpass);
+    //document.getElementById("nick").value="";
+    //document.getElementById("pass").value="";
+    $.ajax({
+        type:"GET",
+        url: "http://192.168.43.206/redcicla/public/ult-mediciones",
+        data: {id, fecha}, 
+        cache: false,
+        dataType: "json",
+        success:  function(data){
+          alert(data);
+           var mensaje= data;
+           console.log(mensaje);
+        },
+        error: function(jqXHR) {
+        
+              console.log("Failed to get: " +jqXHR.status);
+            }
+          
+    });
 
 };
+
+          
+var mediciones = function() {
+ 
+  $.ajax({
+    type:"GET",
+    url: "http://192.168.18.100/redcicla/public/ult-mediciones",
+    dataType: "json",
+    contentType: 'application/json',
+  
+    success:  function(data){
+      alert(data);
+       mensaje= data;
+       console.log(mensaje);
+    },
+  
+      
+});
+    
+};
+
+
