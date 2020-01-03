@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <style type="text/css">
-      #menu{
-          margin: 10px;
-      }
-      #titulo{
-          margin: auto;
-      }
-  </style>
-  <!--
+    <style type="text/css">
+        #menu {
+            margin: 10px;
+        }
+        
+        #titulo {
+            margin: auto;
+        }
+    </style>
+    <!--
       Customize this policy to fit your own app's needs. For more guidance, see:
           https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
       Some notes:
@@ -33,48 +35,57 @@
   <link href="css/style.css">
 
 </head>
+
 <body>
-  <div id="app">
-    <!-- Statusbar overlay -->
+    <div id="app">
+        <!-- Statusbar overlay -->
 
-    <div class="panel panel-left panel-cover">
+        <div class="panel panel-left panel-cover">
 
-      <div class="block">
-        <center><img src="img\escudo.png" ></center>
-        <div class="list links-list">
-          <ul>
-            <li><a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\notification.png" >Notificaciones</a></li>
-            <li><a href="index" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png" >Volver al mapa</a></li>
-          <!--  <li><a href="/misiones/" data-view=".page-content" class="panel-close">Misiones </a></li>-->
-          </ul>
+            <div class="block">
+                <center><img src="img\escudo.png"></center>
+                <div class="list links-list">
+                    <ul>
+                        <li>
+                            <a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\notification.png">Notificaciones</a>
+                        </li>
+                        <li>
+                            <a href="index" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png">Volver al mapa</a>
+                        </li>
+                        <!--  <li><a href="/misiones/" data-view=".page-content" class="panel-close">Misiones </a></li>-->
+                    </ul>
+                </div>
+                <div class="list links-list">
+                    <ul>
+                        <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
+                        <li>
+                            <a href="/lista/" data-view=".page-content" class="panel-close no-ripple"><img src="img\placeholder.png">Puntos de reciclaje</a>
+                        </li>
+                        <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
+                        <li>
+                            <a href="/ayuda/" data-view=".page-content" class="panel-close no-ripple"><img src="img\colors.png">Contenedores</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="list links-list">
-          <ul>
-          <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
-            <li><a href="/lista/" data-view=".page-content" class="panel-close no-ripple"><img src="img\placeholder.png" >Puntos de reciclaje</a></li>
-            <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
-            <li><a href="/ayuda/" data-view=".page-content" class="panel-close no-ripple"><img src="img\colors.png" >Contenedores</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- Your main view, should have "view-main" class -->
-    <div class="view view-main view-init">
-      <div class="page">
-        <div class="page-content">
-          <div class="row" style="background-color: #FFFFFF">
-            <div id="menu" class="panel-open col-md-2">
-              <img src="img\menu.png" >
-            </div>
-            <div id="titulo" class="col-md-8">
-              <img src="img\escudo.png" >
-            </div>
-            <div id="menu" class="col-md-2">
-              <img src="img\photo-camera.png" >
-            </div>
-          </div>
-          <div class="page-content">
-            <div id="map" style="height: 90%; "></div>
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main view-init">
+            <div class="page">
+                <div class="page-content">
+                    <div class="row" style="background-color: #FFFFFF">
+                        <div id="menu" class="panel-open col-md-2">
+                            <img src="img\menu.png">
+                        </div>
+                        <div id="titulo" class="col-md-8">
+                            <img src="img\escudo.png">
+                        </div>
+                        <div id="menu" class="col-md-2">
+                            <img src="img\photo-camera.png">
+                        </div>
+                    </div>
+                    <div class="page-content">
+                        <div id="map" style="height: 90%; "></div>
 
           </div>
           <div>
@@ -83,9 +94,9 @@
         </div>
     
         </div>
-      </div>
     </div>
   </div>
+  
   
  
   <script type="text/javascript" src="cordova.js"></script>
@@ -96,4 +107,5 @@
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 
 </body>
+
 </html>
