@@ -16,7 +16,7 @@
         </div>
        
 
-        <form  class="list" id="my-form">
+        <form  class="list" id="form-sol">
             <ul>
               <li>
                 <div class="item-content item-input">
@@ -124,22 +124,20 @@
                 Save changes
               </button>
           </form>
-          <div class="block block-strong row">
-            <div class="col"><a class="button convert-form-to-data" href="#">Get Data</a></div>
-            <div class="col"><a class="button fill-form-from-data" href="#">Fill Form</a></div>
-          </div>
+         
      
       </div>
     </div>
   </div>
   <script>
-      $('form').submit(function(){
+      $('#form-sol').submit(function(){
     var postData = $(this).serialize();
+ alert(postData);
  
     $.ajax({
         type: 'POST',
         data: postData,
-        url: 'http://192.168.43.206/redcicla/public/solicitudes/store',
+        url: 'http://192.168.18.100/redcicla/public/solicitudes/store',
         success: function(data){
             console.log(data);
             alert('Your comment was successfully added');
