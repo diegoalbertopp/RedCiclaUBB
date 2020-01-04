@@ -53,6 +53,10 @@ var app = new Framework7({
       {
         path: '/index/',
         url: 'index.html'
+      },
+      {
+        path: '/solicitud/',
+        url: 'solicitud.html'
       }
     ]
     // ... other parameters
@@ -594,5 +598,13 @@ var mediciones = function() {
 });
     
 };
+
+$$('.convert-form-to-data').on('click', function(){
+  var formData = app.form.convertToData('#my-form');
+  alert(JSON.stringify(formData));
+});
+
+
+
 
 
