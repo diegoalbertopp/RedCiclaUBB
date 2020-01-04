@@ -16,7 +16,7 @@
         </div>
        
 
-        <form  class="list" id="form-sol">
+        <form  class="list"  id="form" name="form">
             <ul>
               <li>
                 <div class="item-content item-input">
@@ -118,11 +118,9 @@
                 </div>
             </li>
              
-              
+            <input id="submit" type="button" name="submit" value="submit">
             </ul>
-            <button type="submit" class="btn btn-primary form-ajax-submit" id="btn-save" >
-                Save changes
-              </button>
+           
           </form>
          
      
@@ -130,28 +128,31 @@
     </div>
   </div>
   <script>
-      $('#form-sol').submit(function(){
-    var postData = $(this).serialize();
- alert(postData);
- 
-    $.ajax({
-        type: 'POST',
-        data: postData,
-        url: 'http://192.168.18.100/redcicla/public/solicitudes/store',
-        success: function(data){
-            console.log(data);
-            alert('Your comment was successfully added');
-        },
-        error: function(){
-            console.log(data);
-            alert('There was an error adding your comment');
-        }
-    });
- 
-    return false;
-});
 
  
+$(document).ready(function(){
+        // click on button submit
+        $("#submit").on('click', function(){
+            // send ajax
+            $.ajax({
+                url: 'http://192.168.18.100/redcicla/public/solicitudes/store', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data: formToJson($("form")),
+    contentType: 'application/json;charset=UTF-8',// post data || get data
+                success : function(result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    console.log(result);
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+    });
+
+
   
   </script>
 
