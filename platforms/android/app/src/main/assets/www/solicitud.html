@@ -1,159 +1,58 @@
 <div class="view view-main view-init">
     <div class="page">
-      <div class="page-content">
-        <div class="row" style="background-color: #FFFFFF">
-          <a href="#" class="link back">
-            <div id="menu" class="col-md-2">
-              <img src="img\atras.png" >
+        <div class="page-content">
+            <div class="row" style="background-color: rgb(9, 65, 37)">
+                <a href="#" class="link back col-md-2">
+                    <div id="menu" class="col-md-2">
+                        <img src="img\atras.png">
+                    </div>
+                </a>
+                <div id="titulo" class="col-md-8">
+                    <img style="padding:10px; height: 40px;" src="img\redcicla-blanco.png">
+                </div>
+                <div id="titulo" class="col-md-2">
+                </div>
             </div>
-          </a>
-            <div id="titulo" class="col-md-8">
-              <img src="img\escudo.png" >
-            </div>
-            <div id="menu" class="col-md-2">
-              <img src="img\photo-camera.png" >
-            </div>
+            <form id="miForm">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" />
+
+                <label for="apellido">Apellido</label>
+                <input type="text" name="apellido" id="apellido" />
+
+                <label for="direccion">Dirección</label>
+                <input type="text" name="direccion" id="direccion" />
+
+                <label for="ciudad">Ciudad</label>
+                <input type="text" name="ciudad" id="ciudad" />
+
+                <label for="tipo_material">Tipo de material</label>
+                <select name="tipo_material" id="tipo_material">
+                    <option value="Vidrio">Vidrio</option> 
+                    <option value="Plástico" selected>Plástico</option>
+                    <option value="Papel">Papel</option>
+                </select>
+
+                <label for="detalle">Detalle</label>
+                <input type="text" name="detalle" id="detalle" />
+
+                <label for="email">Correo electrónico</label>
+                <input type="email" name="email" id="email" />
+
+                <label for="telefono">Teléfono</label>
+                <input type="number" name="telefono" id="telefono" />
+
+                <label for="fecha">Fecha</label>
+                <input type="date" name="fecha" id="fecha" />
+
+                <label for="EmpresaReciclaje_idEmpresaReciclaje">Empresa</label>
+                <select name="EmpresaReciclaje_idEmpresaReciclaje" id="EmpresaReciclaje_idEmpresaReciclaje">
+                    <option value="1">REDCICLA</option> 
+                    <option value="11" selected>MUNICIPALIDAD DE CHILLÁN</option>
+                </select>
+
+                <button type="submit" value="Enviar" onclick="enviarDatos()" id="btnSend">Enviar</button>
+            </form>
         </div>
-       
-
-        <form  class="list"  id="form" name="form">
-            <ul>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Nombre</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="nombre" placeholder="Tú nombre">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Apellido</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="apellido" placeholder="Tú apellido">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Dirección</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="direccion" placeholder="dirección">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Ciudad</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="ciudad" placeholder="ciudad">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Tipo de material</div>
-                    <div class="item-input-wrap">
-                      <select name="tipo_material">
-                        <option value="Vidrio" selected>vidrio</option>
-                        <option value="Plástico">plastico</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </li>
-          
-            
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Detalle</div>
-                    <div class="item-input-wrap">
-                      <input type="text" name="detalle" placeholder="detalle">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">E-mail</div>
-                    <div class="item-input-wrap">
-                      <input type="email" name="email" placeholder="E-mail">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Telefono</div>
-                    <div class="item-input-wrap">
-                      <input type="number" name="telefono" placeholder="Telefono">
-                    </div>
-                  </div>
-                </div>
-              </li>
-              
-              <li>
-                <div class="item-content item-input">
-                  <div class="item-inner">
-                    <div class="item-title item-label">Empresa</div>
-                    <div class="item-input-wrap">
-                      <select name="EmpresaReciclaje_idEmpresaReciclaje">
-                        <option value="1" selected>1</option>
-                        <option value="11">11</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-            </li>
-             
-            <input id="submit" type="button" name="submit" value="submit">
-            </ul>
-           
-          </form>
-         
-     
-      </div>
     </div>
-  </div>
-  <script>
-
- 
-$(document).ready(function(){
-        // click on button submit
-        $("#submit").on('click', function(){
-            // send ajax
-            $.ajax({
-                url: 'http://192.168.18.100/redcicla/public/solicitudes/store', // url where to submit the request
-                type : "POST", // type of action POST || GET
-                dataType : 'json', // data type
-                data: formToJson($("form")),
-    contentType: 'application/json;charset=UTF-8',// post data || get data
-                success : function(result) {
-                    // you can see the result from the console
-                    // tab of the developer tools
-                    console.log(result);
-                },
-                error: function(xhr, resp, text) {
-                    console.log(xhr, resp, text);
-                }
-            })
-        });
-    });
-
-
-  
-  </script>
-
-
+</div>

@@ -17,56 +17,55 @@ var app = new Framework7({
         swipe: 'right',
     },
     // Add default routes
-    routes: [
-      {
-        path: '/about/',
-        url: 'about.html'
-      },
-      {
-        path: '/sesion/',
-        url: 'sesion.html'
-      },
-      {
-        path: '/ayuda/',
-        url: 'ayuda.html'
-      },
-      {
-        path: '/configuracion/',
-        url: 'configuracion.html'
-      },
-      {
-        path: '/historial/',
-        url: 'historial.html'
-      },
-      {
-        path: '/lista/',
-        url: 'lista.html'
-      },
-      {
-        path: '/misiones/',
-        url: 'misiones.html'
-      },
-      {
-        path: '/notificaciones/',
-        url: 'notificaciones.html'
-      },
-      {
-        path: '/index/',
-        url: 'index.html'
-      },
-      {
-        path: '/solicitud/',
-        url: 'solicitud.html'
-      }
-    ]
-    // ... other parameters
-  });
+    routes: [{
+                path: '/about/',
+                url: 'about.html'
+            },
+            {
+                path: '/sesion/',
+                url: 'sesion.html'
+            },
+            {
+                path: '/ayuda/',
+                url: 'ayuda.html'
+            },
+            {
+                path: '/configuracion/',
+                url: 'configuracion.html'
+            },
+            {
+                path: '/historial/',
+                url: 'historial.html'
+            },
+            {
+                path: '/lista/',
+                url: 'lista.html'
+            },
+            {
+                path: '/misiones/',
+                url: 'misiones.html'
+            },
+            {
+                path: '/notificaciones/',
+                url: 'notificaciones.html'
+            },
+            {
+                path: '/index/',
+                url: 'index.html'
+            },
+            {
+                path: '/solicitud/',
+                url: 'solicitud.html'
+            }
+        ]
+        // ... other parameters
+});
 
 var mainView = app.views.create('.view-main');
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
-    app.router.navigate("/sesion/");
+    //app.router.navigate("/sesion/");
     console.log("Device is ready!");
     console.log("El dispositivo está listo");
     //var watchID = navigator.geolocation.watchPosition(funcionExito, funcionError, opcionesGPS);
@@ -87,7 +86,7 @@ function initMap() {
     $.ajax({
         async: false,
         type: "GET",
-        url: "http://192.168.18.100/redcicla/public/ult-mediciones",
+        url: "http://192.168.0.105/redcicla/public/ult-mediciones",
         dataType: "text",
 
         success: function(data) {
@@ -488,150 +487,41 @@ var dynamicSheet = app.sheet.create({
     }
 });
 
-/*
- * @param
- * @return
- */
-
-function placeMarkerAndPanTo(latLng, map) {
-    var marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-    });
-    map.panTo(latLng);
-}
-
-
-/*
- * @param Position Este método acepta un objeto Position, que contiene las coordenadas GPS actuales.
- * @return lanza por consola la información sobre posición actual en el mapa
- */
-
-
-
-function funcionExito(position) {
-    console.log('latitude: ' + position.coords.latitude);
-    console.log('longitude: ' + position.coords.longitude);
-    console.log('Altitude: ' + position.coords.altitude);
-    console.log('Accuracy: ' + position.coords.accuracy);
-    console.log('Altitude Accuracy: ' + position.coords.altitudeAccuracy);
-    console.log('Heading: ' + position.coords.heading);
-    console.log('Speed: ' + position.coords.speed);
-    console.log('Timestamp: ' + position.timestamp);
-    console.log('--------------------------------')
-
-    $$("#lat").html(position.coords.latitude);
-    $$("#lgn").html(position.coords.longitude);
-
-    var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
-
-    map.setCenter(pos);
-    map.setZoom(17);
-    marcador.setPosition(pos);
-}
-
-/*
- * @param error : recibe un objeto PositionError
- * @return muestra por consola el mensaje de error
- */
-function funcionError(error) {
-    console.log("hubo un error");
-}
-
-var opcionesGPS = {
-    timeout: 500000,
-    enableHighAccuracy: false
-}
-
-/* Inicializar la barra de búsqueda con parámetros
-* @param el: Selector de CSS o elemento HTML del elemento de la barra de búsqueda (form class="searchbar")
-         searchContainer: Selector de CSS o elemento HTML del bloque de lista para buscar.
-         searchIn: Selector de CSS del campo del elemento Vista de lista donde debemos buscar.
-  @return
-*
-*/
-var searchbar = app.searchbar.create({
-    el: '.searchbar',
-    searchContainer: '.list',
-    searchIn: '.item-title',
-    on: {
-        search(sb, query, previousQuery) {
-            console.log(query, previousQuery);
-        }
-    }
+$$('.convert-form-to-data').on('click', function() {
+    var formData = app.form.convertToData('#my-form');
+    alert(JSON.stringify(formData));
 });
 
+function enviarDatos() {
 
-// Crear dynamic Sheet
-// @param  texto HTML par sheet dynamic. Puede ser útil si desea crear elementos sheet dinámicamente.
-var dynamicSheet = app.sheet.create({
-    content: '<div class="sheet-modal">' +
-        '<div class="toolbar">' +
-        '<div class="toolbar-inner">' +
-        '<div class="left"></div>' +
-        '<div class="right">' +
-        '<a class="link sheet-close">Done</a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="sheet-modal-inner">' +
-        '<div class="block">' +
-        '<p>Sheet created dynamically.</p>' +
-        '<p><a href="#" class="link sheet-close">Close me</a></p>' +
-        '</div>' +
-        '</div>' +
-        '</div>',
-    // Eventos para abrir y cerra sheet
-    on: {
-        open: function(sheet) {
-            console.log('Sheet open');
-        },
-        opened: function(sheet) {
-            console.log('Sheet opened');
-        },
-    }
-});
-
-function getMediciones() {
-
-    //  var fnick= document.getElementById("nick").value;
-    //var fpass= document.getElementById("pass").value;
-
-    //console.log(fnick);
-    //console.log(fpass);
-    //document.getElementById("nick").value="";
-    //document.getElementById("pass").value="";
     $.ajax({
-        type: "GET",
-        url: "http://192.168.43.206/redcicla/public/ult-mediciones",
-        data: { id, fecha },
-        cache: false,
-        dataType: "json",
-        success: function(data) {
-            alert(data);
-            var mensaje = data;
-            console.log(mensaje);
+        async: false,
+        type: "POST",
+        url: "http://192.168.0.105/redcicla/public/solicitudes/store",
+        data: {
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            direccion: document.getElementById('direccion').value,
+            ciudad: document.getElementById('ciudad').value,
+            tipo_material: document.getElementById('tipo_material').value,
+            detalle: document.getElementById('detalle').value,
+            email: document.getElementById('email').value,
+            telefono: document.getElementById('telefono').value,
+            fecha: document.getElementById('fecha').value,
+            EmpresaReciclaje_idEmpresaReciclaje: document.getElementById('EmpresaReciclaje_idEmpresaReciclaje').value,
         },
-        error: function(jqXHR) {
+        success: function(response) {
 
-            console.log("Failed to get: " + jqXHR.status);
+            console.log("exito")
+
+
+        },
+        error: function(err) {
+            console.log("error")
+        },
+        complete: function() {
+            console.log("completo")
+
         }
-
     });
-
-
-};
-
-
-var mediciones = function() {
-
-$$('.convert-form-to-data').on('click', function(){
-  var formData = app.form.convertToData('#my-form');
-  alert(JSON.stringify(formData));
-});
-
-
-
-
-
-};
+}
