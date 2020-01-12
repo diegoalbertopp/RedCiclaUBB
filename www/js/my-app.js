@@ -86,7 +86,7 @@ function initMap() {
     $.ajax({
         async: false,
         type: "GET",
-        url: "http://192.168.0.105/redcicla/public/ult-mediciones",
+        url: "http://192.168.18.100/redcicla/public/ult-mediciones",
         dataType: "text",
 
         success: function(data) {
@@ -497,7 +497,7 @@ function enviarDatos() {
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.0.105/redcicla/public/solicitudes/store",
+        url: "http://192.168.18.100/redcicla/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,

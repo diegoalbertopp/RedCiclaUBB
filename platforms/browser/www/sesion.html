@@ -7,7 +7,7 @@
                 </div>
             </div>
 
-            <form>
+            <form id="login-form" enctype="multipart/form-data">
 
                 <div class="list" style="margin-left: auto;width: 80%;margin-right: auto;">
 
@@ -16,7 +16,7 @@
                             <div class="item-inner">
                                 <div class="item-title item-label">Correo electrónico</div>
                                 <div class="item-input-wrap">
-                                    <input id="nick" type="text" name="email" placeholder="Ingrese correo electrónico">
+                                    <input id="email" type="text" name="email" placeholder="Ingrese correo electrónico">
                                 </div>
                             </div>
                         </li>
@@ -24,7 +24,7 @@
                             <div class="item-inner">
                                 <div class="item-title item-label">Contraseña</div>
                                 <div class="item-input-wrap">
-                                    <input id="pass" type="password" name="password " placeholder="Ingrese contraseña">
+                                    <input id="password" type="password" name="password" placeholder="Ingrese contraseña">
                                 </div>
                             </div>
                         </li>
@@ -32,11 +32,36 @@
                 </div>
                 <div class="block">
                     <div class="row">
-                        <button class="col button button-fill button-round link back" style="background-color:rgb(9, 65, 37)">Ingresar</button>
+                        <button type="submit" onclick="enviar()" class="col button button-fill button-round link back" style="background-color:rgb(9, 65, 37)" id="loginButton">Ingresar</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+  
+  function enviar() {
+    var email = document.getElementById('email').value;
+            var password= document.getElementById('password').value;
+  
+       
+        $.ajax({
+  method: "POST",
+  url: "http://192.168.18.100/redcicla/public/api/auth/login",
+  data : {email : email, password: password}
+}).done(function(data, status) {
+  localStorage.setItem('appname_token', data.token);
+  // the following part makes sure that all the requests made later with jqXHR will automatically have this header.
+  $( document ).ajaxSend(function( event, jqxhr, settings ) {
+      jqxhr.setRequestHeader('Authorization', "Bearer " + data.token); 
+  });
+}).fail(function(error){
+  // handle the error
+});
+     
+  } 
+   
+    </script>
 
 </div>
