@@ -526,7 +526,8 @@ function enviarDatos() {
     });
 }
 function enviar() {
-       
+    var email= document.getElementById('email').value;
+    var password= document.getElementById('password').value;
     $.ajax({
         async: false,
 method: "POST",
@@ -534,9 +535,10 @@ url: "http://192.168.18.100/redcicla/public/api/auth/login",
 headers: {
 "Content-Type": "application/json"
 },
-data : JSON.stringify({"email":"pablocrts988@gmail.com","password":"93907504"})
+data : JSON.stringify({"email":email,"password":password})
 }).done(function(data, status) {
 localStorage.setItem('appname_token', data.token);
+console.log(data);
 // the following part makes sure that all the requests made later with jqXHR will automatically have this header.
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
   jqxhr.setRequestHeader('Authorization', "Bearer " + data.token); 
