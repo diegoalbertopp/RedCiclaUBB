@@ -83,6 +83,8 @@ var markers;
 
 function initMap() {
 
+   
+
     $.ajax({
         async: false,
         type: "GET",
@@ -524,7 +526,8 @@ function enviarDatos() {
 
         }
     });
-}
+};
+
 function enviar() {
     var email= document.getElementById('email').value;
     var password= document.getElementById('password').value;
@@ -539,12 +542,40 @@ data : JSON.stringify({"email":email,"password":password})
 }).done(function(data, status) {
 localStorage.setItem('appname_token', data.token);
 console.log(data);
+
+
 // the following part makes sure that all the requests made later with jqXHR will automatically have this header.
 $( document ).ajaxSend(function( event, jqxhr, settings ) {
   jqxhr.setRequestHeader('Authorization', "Bearer " + data.token); 
 });
+
+
 }).fail(function(error){
 // handle the error
 });
- 
-} 
+
+
+};
+
+function contenedores(){
+    $.ajax({ 
+        method: "GET", 
+        processData: false,
+        mimeType: "multipart/form-data",
+        contentType: false,
+        url: 'http://192.168.18.100/redcicla/public/api/auth/contenedor', 
+        headers: { 
+            'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ localStorage.getItem('appname_token')
+        },
+       
+        success: function(data) {
+           
+            console.log (data);
+          },
+          error: function() {
+            alert("Login Failed");
+          }
+    
+      });
+}
