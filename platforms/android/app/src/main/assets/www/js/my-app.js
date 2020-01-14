@@ -92,6 +92,7 @@ function initMap() {
 
         document.getElementById("cerrarSesion").style.display = "none";
 
+
         $.ajax({
             async: false,
             type: "GET",
@@ -659,14 +660,14 @@ function initMap() {
                             marker = new google.maps.Marker({
                                 position: position,
                                 map: map,
-                                icon: "img/green-dot.png",
+                                icon: "img/container.png",
                                 title: markers[i][0]
                             });
                         } else {
                             marker = new google.maps.Marker({
                                 position: position,
                                 map: map,
-                                icon: "img/green-dot.png",
+                                icon: "img/container.png",
                                 title: markers[i][0]
                             });
                         }
