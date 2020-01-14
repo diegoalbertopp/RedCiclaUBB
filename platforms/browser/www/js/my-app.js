@@ -64,6 +64,8 @@ var app = new Framework7({
 
 var mainView = app.views.create('.view-main');
 
+
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     //app.router.navigate("/sesion/");
@@ -313,11 +315,7 @@ if(localStorage.getItem('sesion')==0){
                 zoom: 15
             });
 
-            marcador = new google.maps.Marker({
-                position: { lat: -36.6066399, lng: -72.1034393 },
-                map: map
-            });
-
+         
             map.mapTypes.set('styled_map', styledMapType);
             map.setMapTypeId('styled_map');
 
@@ -336,7 +334,7 @@ if(localStorage.getItem('sesion')==0){
                     '<h3>' +
                     onionarray[j].direccion + '</h3>' +
                     '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                    '<p>Porcentaje de llenado: ' + Math.round(100 - ((onionarray[j].medicion * 100) / onionarray[j].capacidad)) + '%</p>' + '</div>'
+                    '<p>Porcentaje de llenado: ' + onionarray[j].medicion + '%</p>' + '</div>'
                 ])
             }
 
@@ -620,11 +618,7 @@ if(localStorage.getItem('sesion')==0){
                 zoom: 15
             });
 
-            marcador = new google.maps.Marker({
-                position: { lat: -36.6066399, lng: -72.1034393 },
-                map: map
-            });
-
+         
             map.mapTypes.set('styled_map', styledMapType);
             map.setMapTypeId('styled_map');
 
@@ -639,11 +633,11 @@ if(localStorage.getItem('sesion')==0){
             var infoWindowContent = [];
             for (var j = 0; j < tamaño; j++) {
                 infoWindowContent.push(['<div class="info_content">' +
-                    '<img src="http://cdn.plataformaurbana.cl/wp-content/uploads/2015/08/plaza-de-armas-de-chilla-fuente-imagen-municipalidad-de-chillan-1000x665.jpg" width = "200" heigth = "100" >' +
+                    '<img src="http://ubiobio.cl/acreditacion/sumate/assets/images/mg-4360-1042x694.jpg" width = "200" heigth = "100" >' +
                     '<h3>' +
                     onionarray[j].direccion + '</h3>' +
                     '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                    '<p>Porcentaje de llenado: ' + Math.round(100 - ((onionarray[j].medicion * 100) / onionarray[j].capacidad)) + '%</p>' + '</div>'
+                    '<p>Porcentaje de llenado: '+ (onionarray[j].medicion) + '%</p>' + '</div>'
                 ])
             }
 
@@ -704,6 +698,9 @@ if(localStorage.getItem('sesion')==0){
 
 }
 
+
+
+    
 /*
  * @param
  * @return
@@ -722,7 +719,6 @@ function placeMarkerAndPanTo(latLng, map) {
  * @param Position Este método acepta un objeto Position, que contiene las coordenadas GPS actuales.
  * @return lanza por consola la información sobre posición actual en el mapa
  */
-
 
 
 function funcionExito(position) {
@@ -811,7 +807,9 @@ var dynamicSheet = app.sheet.create({
 $$('.convert-form-to-data').on('click', function() {
     var formData = app.form.convertToData('#my-form');
     alert(JSON.stringify(formData));
-});
+});   
+
+
 
 function enviarDatos() {
 
