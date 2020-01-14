@@ -13,46 +13,124 @@
                 <div id="titulo" class="col-md-2">
                 </div>
             </div>
+            <div class="block-title">Por favor llenar solicitud</div>
             <form id="miForm">
-                <label for="nombre">Nombre</label>
+
+                <div class="list no-hairlines-md">
+                    <ul>
+                    <li class="item-content item-input">
+                    <div class="item-inner">
+                    <div class="item-title item-label">Nombre</div>
+                    <div class="item-input-wrap">
+                
                 <input type="text" name="nombre" id="nombre" />
+                <span class="input-clear-button"></span>
+ </div>
+ </div>
+ </li>
+ <li class="item-content item-input">
+    <div class="item-inner">
+    <div class="item-title item-label">Apellido</div>
+    <div class="item-input-wrap">
 
-                <label for="apellido">Apellido</label>
+                
                 <input type="text" name="apellido" id="apellido" />
-
-                <label for="direccion">Dirección</label>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Dirección</div>
+                <div class="item-input-wrap">
+            
+                
                 <input type="text" name="direccion" id="direccion" />
-
-                <label for="ciudad">Ciudad</label>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Ciudad</div>
+                <div class="item-input-wrap">
+                
                 <input type="text" name="ciudad" id="ciudad" />
-
-                <label for="tipo_material">Tipo de material</label>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Tipo material</div>
+                <div class="item-input-wrap">
+               
                 <select name="tipo_material" id="tipo_material">
                     <option value="Vidrio">Vidrio</option> 
                     <option value="Plástico" selected>Plástico</option>
                     <option value="Papel">Papel</option>
                 </select>
-
-                <label for="detalle">Detalle</label>
-                <input type="text" name="detalle" id="detalle" />
-
-                <label for="correo">Correo electrónico</label>
+            </div>
+        </div>
+        </li>
+       <li class="item-content item-input">
+        <div class="item-inner">
+        <div class="item-title item-label">Detalle</div>
+        <div class="item-input-wrap">
+       
+                <textarea type="text" name="detalle" id="detalle"></textarea>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Correo electronico</div>
+                <div class="item-input-wrap">
+              
                 <input type="email" name="correo" id="correo" />
-
-                <label for="telefono">Teléfono</label>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Telefono</div>
+                <div class="item-input-wrap">
+            
                 <input type="number" name="telefono" id="telefono" />
-
-                <label for="fecha">Fecha</label>
-                <input type="date" name="fecha" id="fecha" />
-
-                <label for="EmpresaReciclaje_idEmpresaReciclaje">Empresa</label>
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Fecha</div>
+                <div class="item-input-wrap">
+               
+                <input type="datetime-local" name="fecha" id="fecha" />
+                <span class="input-clear-button"></span>
+            </div>
+            </div>
+            </li>
+            <li class="item-content item-input">
+                <div class="item-inner">
+                <div class="item-title item-label">Empresa</div>
+                <div class="item-input-wrap imput-dropdown-wrap">
+                
                 <select name="EmpresaReciclaje_idEmpresaReciclaje" id="EmpresaReciclaje_idEmpresaReciclaje">
                     <option value="1">REDCICLA</option> 
                     <option value="11" selected>MUNICIPALIDAD DE CHILLÁN</option>
                 </select>
-
-                <button type="submit" value="Enviar" onclick="enviarDatos()" id="btnSend">Enviar</button>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
+        </li>
+                <button type="submit" value="Enviar" onclick="enviarDatos()" class="col button button-fill button-round link back" style="background-color:rgb(9, 65, 37)"  id="btnSend">Enviar</button>
+            
+            </ul>
+        </div>
+          
+            </form>
+
+ 
+ 

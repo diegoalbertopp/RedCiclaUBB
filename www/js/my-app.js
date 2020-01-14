@@ -54,7 +54,7 @@ var app = new Framework7({
                 url: 'index.html'
             },
             {
-                path: '/sesion/',
+                path: '/solicitud/',
                 url: 'solicitud.html'
             }
 
@@ -95,7 +95,7 @@ function initMap() {
         $.ajax({
             async: false,
             type: "GET",
-            url: "http://192.168.0.105/redcicla/public/ult-mediciones",
+            url: "http://192.168.43.206/redcicla/public/ult-mediciones",
             dataType: "text",
 
             success: function(data) {
@@ -396,7 +396,7 @@ function initMap() {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: 'http://192.168.0.105/redcicla/public/api/auth/contenedor',
+                url: 'http://192.168.43.206/redcicla/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -820,7 +820,7 @@ function enviarDatos() {
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.0.105/redcicla/public/solicitudes/store",
+        url: "http://192.168.43.206/redcicla/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,
@@ -855,7 +855,7 @@ function enviar() {
     $.ajax({
         async: false,
         method: "POST",
-        url: "http://192.168.0.105/redcicla/public/api/auth/login",
+        url: "http://192.168.43.206/redcicla/public/api/auth/login",
         headers: {
             "Content-Type": "application/json"
         },
@@ -911,7 +911,7 @@ function salir() {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        url: 'http://192.168.0.105/redcicla/public/api/auth/logout',
+        url: 'http://192.168.43.206/redcicla/public/api/auth/logout',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
