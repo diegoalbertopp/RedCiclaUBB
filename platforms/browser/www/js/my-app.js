@@ -71,7 +71,7 @@ $$(document).on('deviceready', function() {
     //app.router.navigate("/sesion/");
     console.log("Device is ready!");
     console.log("El dispositivo está listo");
-
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
     initMap();
     //var watchID = navigator.geolocation.watchPosition(funcionExito, funcionError, opcionesGPS);
 });
@@ -86,17 +86,24 @@ var marcador;
 var styledMapType;
 var markers;
 
-function initMap() {
+var latitude;
+var longitude;
 
+
+function initMap() {
+ 
+    var directionsService = new google.maps.DirectionsService();
+
+    var directionsDisplay = new google.maps.DirectionsRenderer();
     if (localStorage.getItem('sesion') == 0) {
 
         document.getElementById("cerrarSesion").style.display = "none";
-
+  
 
         $.ajax({
             async: false,
             type: "GET",
-            url: "http://192.168.43.206/redcicla/public/ult-mediciones",
+            url: "http://192.168.18.187/redcicla/public/ult-mediciones",
             dataType: "text",
 
             success: function(data) {
@@ -112,6 +119,7 @@ function initMap() {
                 var mapOptions = {
                     mapTypeId: 'roadmap',
                 };
+                
 
                 styledMapType = new google.maps.StyledMapType(
                     [{
@@ -305,22 +313,50 @@ function initMap() {
                                 "color": "#92998d"
                             }]
                         }
+                        
                     ]
                 );
+                map = new google.maps.Map
+              
+               (document.getElementById("map"), mapOptions);
+               directionsDisplay.setMap(map);
+               
+      
+          var latLong = new google.maps.LatLng(latitude, longitude);
+      
+          var marker = new google.maps.Marker({
+              position: latLong,
+               icon : "img/drink.png"
+            
+          });
+     
+       
+function calculaRoute(lat, lng){
+    var request = {
+        origin: latLong,
+    destination: new google.maps.LatLng(lat,lng), 
+        travelMode: google.maps.TravelMode.WALKING
+       
+    };
 
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: { lat: -36.6066399, lng: -72.1034393 },
-                    clickableIcons: false,
-                    zoomControl: false,
-                    mapTypeControl: false,
-                    streetViewControl: false,
-                    fullscreenControl: false,
-                    zoom: 15
-                });
+directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(result); 
+    }
+    });
+}
+      
+          
+          marker.setMap(map);
+          map.setZoom(15);
+         map.setCenter(latitude,longitude);
+       // map.setCenter(marker.getPosition());
+       
 
 
                 map.mapTypes.set('styled_map', styledMapType);
                 map.setMapTypeId('styled_map');
+                
 
 
                 // Multiples mascadores del mapa con su latitud y longitud
@@ -328,20 +364,37 @@ function initMap() {
                 var markers = [];
                 for (var i = 0; i < tamaño; i++) {
                     markers.push([onionarray[i].direccion, onionarray[i].latitud, onionarray[i].longitud])
+                   
                 }
 
                 var infoWindowContent = [];
                 for (var j = 0; j < tamaño; j++) {
+                    
                     infoWindowContent.push(['<div class="info_content">' +
                         '<img src="http://cdn.plataformaurbana.cl/wp-content/uploads/2015/08/plaza-de-armas-de-chilla-fuente-imagen-municipalidad-de-chillan-1000x665.jpg" width = "200" heigth = "100" >' +
                         '<h3>' +
                         onionarray[j].direccion + '</h3>' +
                         '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                        '<p>Porcentaje de llenado: ' + onionarray[j].medicion + '%</p>' + '</div>'
+                        '<p>Porcentaje de llenado: ' + onionarray[j].medicion + '%</p>' + 
+                        '<a > VER RUTA </a>' +
+                        '</div>'
+                       
                     ])
+                 
                 }
-
-
+               
+               /* 
+                map.addListener('click', function(e) {
+                    var lat= e.latLng.lat()
+                    var lng= e.latLng.lng();
+                    alert(lat);
+                    alert(lng);
+    
+                    calculaRoute(lat, lng);
+                    
+          
+                }); */
+                
 
                 // Agrega los marcadores al mapa
                 var infoWindow = new google.maps.InfoWindow(),
@@ -351,11 +404,12 @@ function initMap() {
                 for (i = 0; i < markers.length; i++) {
                     var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                     bounds.extend(position);
-                    if (i == 1) {
+                    if (i == 2) {
                         marker = new google.maps.Marker({
                             position: position,
                             map: map,
-                            icon: "img/container.png",
+                            icon: "img/container-plastico.png",
+                          
                             title: markers[i][0]
                         });
                     } else {
@@ -366,15 +420,28 @@ function initMap() {
                             title: markers[i][0]
                         });
                     }
+                 
 
                     // Agrega la información a los marcadores
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                         return function() {
                             infoWindow.setContent(infoWindowContent[i][0]);
                             infoWindow.open(map, marker);
+    
                         }
                     })(marker, i));
-
+                
+                    google.maps.event.addListener(
+                        marker, 
+                        "click", 
+                        function (e) {
+                            var lat= e.latLng.lat()
+                            var lng= e.latLng.lng();
+                            map.setZoom(10);
+                            map.setCenter(marker.getPosition());
+                            calculaRoute(lat, lng);
+                        }
+                    )
                     map.fitBounds(bounds);
                 }
                 //Añadir marcador
@@ -383,8 +450,7 @@ function initMap() {
                     placeMarkerAndPanTo(e.latLng, map);
                 });*/
             },
-
-
+            
         });
 
     } else {
@@ -397,7 +463,7 @@ function initMap() {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: 'http://192.168.43.206/redcicla/public/api/auth/contenedor',
+                url: 'http://192.168.18.187/redcicla/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -612,8 +678,26 @@ function initMap() {
                             }
                         ]
                     );
+                    map = new google.maps.Map
+          (document.getElementById("map"), mapOptions);
+      
+      
+          var latLong = new google.maps.LatLng(latitude, longitude);
+      
+          var marker = new google.maps.Marker({
+              position: latLong, 
+             icon : "img/gps.png"
+          });
+      
+          marker.setMap(map);
+          map.setZoom(15);
+          
+       
+         // map.setCenter(marker.getPosition());
 
-                    map = new google.maps.Map(document.getElementById('map'), {
+
+
+                   /* map = new google.maps.Map(document.getElementById('map'), {
                         center: { lat: -36.6066399, lng: -72.1034393 },
                         clickableIcons: false,
                         zoomControl: false,
@@ -621,7 +705,7 @@ function initMap() {
                         streetViewControl: false,
                         fullscreenControl: false,
                         zoom: 15
-                    });
+                    });*/
 
 
                     map.mapTypes.set('styled_map', styledMapType);
@@ -656,11 +740,11 @@ function initMap() {
                     for (i = 0; i < markers.length; i++) {
                         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                         bounds.extend(position);
-                        if (i == 1) {
+                        if (i == 0) {
                             marker = new google.maps.Marker({
                                 position: position,
                                 map: map,
-                                icon: "img/container.png",
+                                icon: "img/container-plastico.png",
                                 title: markers[i][0]
                             });
                         } else {
@@ -699,7 +783,7 @@ function initMap() {
         }
 
 
-    }
+    }   
 
 }
 
@@ -725,27 +809,30 @@ function placeMarkerAndPanTo(latLng, map) {
  * @return lanza por consola la información sobre posición actual en el mapa
  */
 
+var onSuccess = function(position) {
+     latitude = position.coords.latitude;
+     longitude = position.coords.longitude;
+    /*alert('Latitude: '          + latitude         + '\n' +
+          'Longitude: '         + longitude         + '\n' +
+          'Altitude: '          + position.coords.altitude          + '\n' +
+          'Accuracy: '          + position.coords.accuracy          + '\n' +
+          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+          'Heading: '           + position.coords.heading           + '\n' +
+          'Speed: '             + position.coords.speed             + '\n' +
+          'Timestamp: '         + new Date(position.timestamp)      + '\n');
+*/
+          initMap();
+};
 
-function funcionExito(position) {
-    console.log('latitude: ' + position.coords.latitude);
-    console.log('longitude: ' + position.coords.longitude);
-    console.log('Altitude: ' + position.coords.altitude);
-    console.log('Accuracy: ' + position.coords.accuracy);
-    console.log('Altitude Accuracy: ' + position.coords.altitudeAccuracy);
-    console.log('Heading: ' + position.coords.heading);
-    console.log('Speed: ' + position.coords.speed);
-    console.log('Timestamp: ' + position.timestamp);
-    console.log('--------------------------------')
-
-    $$("#lat").html(position.coords.latitude);
-    $$("#lgn").html(position.coords.longitude);
-
-    var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
-
-    map.setCenter(pos);
-    map.setZoom(17);
-    marcador.setPosition(pos);
+// onError Callback receives a PositionError object
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
 }
+
+
+
 
 /*
  * @param error : recibe un objeto PositionError
@@ -821,7 +908,7 @@ function enviarDatos() {
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.43.206/redcicla/public/solicitudes/store",
+        url: "http://192.168.18.187/redcicla/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,
@@ -856,7 +943,7 @@ function enviar() {
     $.ajax({
         async: false,
         method: "POST",
-        url: "http://192.168.43.206/redcicla/public/api/auth/login",
+        url: "http://192.168.18.187/redcicla/public/api/auth/login",
         headers: {
             "Content-Type": "application/json"
         },
@@ -912,7 +999,7 @@ function salir() {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        url: 'http://192.168.43.206/redcicla/public/api/auth/logout',
+        url: 'http://192.168.18.187/redcicla/public/api/auth/logout',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
