@@ -71,8 +71,11 @@ $$(document).on('deviceready', function() {
     //app.router.navigate("/sesion/");
     console.log("Device is ready!");
     console.log("El dispositivo está listo");
+
+    
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
     initMap();
+  
     //var watchID = navigator.geolocation.watchPosition(funcionExito, funcionError, opcionesGPS);
 });
 
@@ -89,6 +92,9 @@ var markers;
 var latitude;
 var longitude;
 
+var lat2;
+var lng2;
+ 
 
 function initMap() {
  
@@ -118,6 +124,7 @@ function initMap() {
                 var bounds = new google.maps.LatLngBounds();
                 var mapOptions = {
                     mapTypeId: 'roadmap',
+                    mapTypeControl: false,
                 };
                 
 
@@ -330,11 +337,11 @@ function initMap() {
             
           });
      
-       
-function calculaRoute(lat, lng){
+
+function calculaRoute(){
     var request = {
         origin: latLong,
-    destination: new google.maps.LatLng(lat,lng), 
+    destination: new google.maps.LatLng(lat2,lng2), 
         travelMode: google.maps.TravelMode.WALKING
        
     };
@@ -357,7 +364,7 @@ directionsService.route(request, function(result, status) {
                 map.mapTypes.set('styled_map', styledMapType);
                 map.setMapTypeId('styled_map');
                 
-
+                directionsDisplay.setOptions( { suppressMarkers: true } );
 
                 // Multiples mascadores del mapa con su latitud y longitud
 
@@ -376,7 +383,7 @@ directionsService.route(request, function(result, status) {
                         onionarray[j].direccion + '</h3>' +
                         '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
                         '<p>Porcentaje de llenado: ' + onionarray[j].medicion + '%</p>' + 
-                        '<a > VER RUTA </a>' +
+                        
                         '</div>'
                        
                     ])
@@ -424,26 +431,46 @@ directionsService.route(request, function(result, status) {
 
                     // Agrega la información a los marcadores
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                   
+                        
                         return function() {
                             infoWindow.setContent(infoWindowContent[i][0]);
                             infoWindow.open(map, marker);
-    
+                            marker.setAnimation(google.maps.Animation.BOUNCE);
+                            setTimeout(function(){ marker.setAnimation(null); }, 1500);
+                          
+                            //    marker.setAnimation(google.maps.Animation.BOUNCE);
+                            
+                         
                         }
+                       
                     })(marker, i));
                 
                     google.maps.event.addListener(
                         marker, 
                         "click", 
                         function (e) {
-                            var lat= e.latLng.lat()
-                            var lng= e.latLng.lng();
-                            map.setZoom(10);
+                           
+                             lat2= e.latLng.lat()
+                             lng2= e.latLng.lng();
+                            map.setZoom(15);
+
                             map.setCenter(marker.getPosition());
-                            calculaRoute(lat, lng);
                         }
                     )
                     map.fitBounds(bounds);
                 }
+
+                
+           
+                var howArrive = document.getElementById('how-arrive');
+                howArrive.addEventListener('click', function() {
+                calculaRoute();
+                infoWindow.close(map, marker);
+                map.setZoom(12);
+                
+                });
+                
                 //Añadir marcador
                 /*
                 map.addListener('click', function(e) {
@@ -454,6 +481,8 @@ directionsService.route(request, function(result, status) {
         });
 
     } else {
+      
+
         if (localStorage.getItem('sesion') == "1") {
             document.getElementById("iniciarSesion").style.display = "none";
             document.getElementById("solicitudId").style.display = "none";
@@ -482,6 +511,9 @@ directionsService.route(request, function(result, status) {
                     var bounds = new google.maps.LatLngBounds();
                     var mapOptions = {
                         mapTypeId: 'roadmap',
+                        
+                        mapTypeControl: false,
+                        
                     };
 
                     styledMapType = new google.maps.StyledMapType(
@@ -680,19 +712,34 @@ directionsService.route(request, function(result, status) {
                     );
                     map = new google.maps.Map
           (document.getElementById("map"), mapOptions);
-      
+          directionsDisplay.setMap(map);
       
           var latLong = new google.maps.LatLng(latitude, longitude);
       
           var marker = new google.maps.Marker({
               position: latLong, 
-             icon : "img/gps.png"
+             icon : "img/trash.png"
           });
       
           marker.setMap(map);
           map.setZoom(15);
           
-       
+          directionsDisplay.setOptions( { suppressMarkers: true } );
+
+          function calculaRoute(){
+            var request = {
+                origin: latLong,
+            destination: new google.maps.LatLng(lat2,lng2), 
+                travelMode: google.maps.TravelMode.DRIVING
+               
+            };
+        
+        directionsService.route(request, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result); 
+            }
+            });
+        }
          // map.setCenter(marker.getPosition());
 
 
@@ -726,20 +773,42 @@ directionsService.route(request, function(result, status) {
                             '<h3>' +
                             onionarray[j].direccion + '</h3>' +
                             '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                            '<p>Porcentaje de llenado: ' + (onionarray[j].medicion) + '%</p>' + '</div>'
+                            '<p>Porcentaje de llenado: ' + (onionarray[j].medicion) + '%</p>' +
+                            
+                            '</div>'
                         ])
+                    }
+                    $$('.open-click-to-close').on('click', function () {
+                        notificationClickToClose.open();
+                      });
+
+                    for (var j = 0; j < tamaño; j++) {
+                        if(onionarray[j].medicion>=80){
+                            var notificationClickToClose = app.notification.create({
+                                icon: '<i class="icon demo-icon">7</i>',
+                                title: 'Notificación',
+                                titleRightText: 'ahora',
+                                subtitle: 'Contenedor lleno',
+                                text: 'Se ha llenado un nuevo contenedor',
+                                closeOnClick: true,
+                              })
+                        }
+                        
                     }
 
 
-
+                  
                     // Agrega los marcadores al mapa
                     var infoWindow = new google.maps.InfoWindow(),
                         marker, i;
                     // Coloca cada marcador en el mapa
                     //@param marker: agrega como parametro la posición, el mapa, el icono que aparecerá en el mapa y titulo.
                     for (i = 0; i < markers.length; i++) {
+        
+
                         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                         bounds.extend(position);
+                    
                         if (i == 0) {
                             marker = new google.maps.Marker({
                                 position: position,
@@ -755,23 +824,52 @@ directionsService.route(request, function(result, status) {
                                 title: markers[i][0]
                             });
                         }
-
+                          
+                      
+                        
                         // Agrega la información a los marcadores
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            
                             return function() {
+                               
                                 infoWindow.setContent(infoWindowContent[i][0]);
                                 infoWindow.open(map, marker);
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
+                                setTimeout(function(){ marker.setAnimation(null); }, 1500);
+                          
                             }
+                            
                         })(marker, i));
+
+                       
+
+                        google.maps.event.addListener(
+                            
+                            marker, 
+                            "click", 
+                            function (e) {
+                                
+                                 lat2= e.latLng.lat()
+                                 lng2= e.latLng.lng();
+                                map.setZoom(15);
+                        
+                                map.setCenter(marker.getPosition());
+                         
+  
+                            }
+                        )
 
                         map.fitBounds(bounds);
                     }
-                    //Añadir marcador
-                    /*
-                    map.addListener('click', function(e) {
-                        placeMarkerAndPanTo(e.latLng, map);
-                    });*/
+                    var howArrive = document.getElementById('how-arrive');
+                    howArrive.addEventListener('click', function() {
+                    calculaRoute();
+                    infoWindow.close(map, marker);
+                    map.setZoom(12);
+                    });
                 },
+
+                
 
 
                 error: function() {
@@ -803,6 +901,15 @@ function placeMarkerAndPanTo(latLng, map) {
     map.panTo(latLng);
 }
 
+
+var toastCenter = app.toast.create({
+    text: 'Mostrando ruta',
+    position: 'center',
+    closeTimeout: 2000,
+  });
+  $$('.open-toast-center').on('click', function () {
+    toastCenter.open();
+  });
 
 /*
  * @param Position Este método acepta un objeto Position, que contiene las coordenadas GPS actuales.
@@ -1018,3 +1125,40 @@ function salir() {
     });
 
 }
+
+
+cordova.plugins.notification.local.hasPermission(function (granted) {
+    // console.log('Permission has been granted: ' + granted);
+});
+ 
+document.addEventListener('deviceready', function () {
+    // Schedule notification for tomorrow to remember about the meeting
+    cordova.plugins.notification.local.schedule({
+        id: 10,
+        title: "Meeting in 15 minutes!",
+        text: "Jour fixe Produktionsbesprechung",
+        at: tomorrow_at_8_45_am,
+        data: { meetingId:"#123FG8" }
+    });
+
+    // Join BBM Meeting when user has clicked on the notification 
+    cordova.plugins.notification.local.on("click", function (notification) {
+        if (notification.id == 10) {
+            joinMeeting(notification.data.meetingId);
+        }
+    });
+
+    // Notification has reached its trigger time (Tomorrow at 8:45 AM)
+    cordova.plugins.notification.local.on("trigger", function (notification) {
+        if (notification.id != 10)
+            return;
+
+        // After 10 minutes update notification's title 
+        setTimeout(function () {
+            cordova.plugins.notification.local.update({
+                id: 10,
+                title: "Meeting in 5 minutes!"
+            });
+        }, 600000);
+    });
+}, false);

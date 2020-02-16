@@ -12,7 +12,17 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    }
+  }
 }

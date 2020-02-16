@@ -7,6 +7,15 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="Badge">
+        <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge" />
+    </feature>
     <name>redcicla</name>
     <description>
         A basic Framework7 template for PhoneGap.
@@ -24,6 +33,7 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="http:///" />
     <allow-intent href="https:///" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />

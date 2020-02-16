@@ -49,7 +49,7 @@
                 <div class="list links-list">
                     <ul>
                         <li>
-                            <a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\notification.png">Notificaciones</a>
+                            <a href="/notificaciones/" data-view=".page-content" data-transition="f7-cover" class="panel-close no-ripple"><img src="img\notification.png">Notificaciones</a>
                         </li>
                         <li>
                             <a href="index"  onclick="initMap()" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png">Volver al mapa</a>
@@ -61,7 +61,7 @@
                     <ul>
                         <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
                         <li>
-                            <a href="/lista/" data-view=".page-content" class="panel-close no-ripple"><img src="img\placeholder.png">Puntos de reciclaje</a>
+                            <a href="/lista/" data-view=".page-content" data-transition="f7-cover" class="panel-close no-ripple"><img src="img\placeholder.png">Puntos de reciclaje</a>
                         </li>
                         <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
                         <li>
@@ -96,11 +96,18 @@
                         </div>
                     </div>
                     <div class="page-content">
+                        <div id="how-arrive" class="fab fab-left-top color-white">
+                            <a href="index" class="open-toast-center">
+                                 <img  src="img\route.png" alt="">
+                            </a>
+                          </div>
                         <div class="fab fab-left-bottom color-green">
                             <a href="index"  onclick="initMap()">
                               <i class="icon f7-icons">plus</i>
                             </a>
                           </div>
+                         
+                        
                         <div id="map" style="height: 90%; "></div>
 
                     </div>
@@ -120,5 +127,8 @@
         <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 
 </body>
+<script>
+    calculeRoute();
+</script>
 
 </html>
