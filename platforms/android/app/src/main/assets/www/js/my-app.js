@@ -340,7 +340,7 @@ function initMap() {
 
 function calculaRoute(){
     var request = {
-        origin: latLong,
+        origin: new google.maps.LatLng(latitude,longitude),
     destination: new google.maps.LatLng(lat2,lng2), 
         travelMode: google.maps.TravelMode.WALKING
        
@@ -351,6 +351,7 @@ directionsService.route(request, function(result, status) {
         directionsDisplay.setDirections(result); 
     }
     });
+     
 }
       
           
@@ -456,6 +457,7 @@ directionsService.route(request, function(result, status) {
                             map.setZoom(15);
 
                             map.setCenter(marker.getPosition());
+                       
                         }
                     )
                     map.fitBounds(bounds);
@@ -467,6 +469,7 @@ directionsService.route(request, function(result, status) {
                 howArrive.addEventListener('click', function() {
                 calculaRoute();
                 infoWindow.close(map, marker);
+              
                 map.setZoom(12);
                 
                 });
@@ -727,19 +730,32 @@ directionsService.route(request, function(result, status) {
           directionsDisplay.setOptions( { suppressMarkers: true } );
 
           function calculaRoute(){
+          
             var request = {
-                origin: latLong,
+                origin:  new google.maps.LatLng(latitude,longitude),
             destination: new google.maps.LatLng(lat2,lng2), 
-                travelMode: google.maps.TravelMode.DRIVING
-               
+
+                travelMode: google.maps.TravelMode.DRIVING,
+                avoidTolls: true
             };
+           
         
         directionsService.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
+
+                directionsDisplay = new google.maps.DirectionsRenderer({                   
+                    suppressMarkers: true
+                  });
+                  directionsDisplay.setMap(map);
+           
                 directionsDisplay.setDirections(result); 
+            
             }
             });
+           
+          
         }
+        
          // map.setCenter(marker.getPosition());
 
 
@@ -836,6 +852,14 @@ directionsService.route(request, function(result, status) {
                                 infoWindow.open(map, marker);
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
                                 setTimeout(function(){ marker.setAnimation(null); }, 1500);
+
+                                var toastCenter = app.toast.create({
+                                    text: 'Punto seleccionado',
+                                    position: 'center',
+                                    closeTimeout: 1000,
+                                  });
+                                
+                                    toastCenter.open();
                           
                             }
                             
@@ -854,10 +878,14 @@ directionsService.route(request, function(result, status) {
                                 map.setZoom(15);
                         
                                 map.setCenter(marker.getPosition());
-                         
-  
+                              
+                               
+
                             }
+                          
+                           
                         )
+                     
 
                         map.fitBounds(bounds);
                     }
@@ -866,6 +894,9 @@ directionsService.route(request, function(result, status) {
                     calculaRoute();
                     infoWindow.close(map, marker);
                     map.setZoom(12);
+                    latitude=lat2;
+                    longitude=lng2;
+                  
                     });
                 },
 
