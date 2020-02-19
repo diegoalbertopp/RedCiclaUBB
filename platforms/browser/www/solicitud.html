@@ -124,13 +124,25 @@
                 </select>
             </div>
         </div>
+
+    
+      
         </li>
+              
+        <button onclick="cameraTakePicture();">GET PICTURE</button>
+        <img id = "myImage"></img>
+
                 <button type="submit" value="Enviar" onclick="enviarDatos()" class="col button button-fill button-round link back" style="background-color:rgb(9, 65, 37)"  id="btnSend">Enviar</button>
-            
+                <label for="avatar">Choose a profile picture:</label>
+
+                <input  onclick="getImage()"  type="file"
+                       id="img" name="avatar"
+                       accept="image/png, image/jpeg">
             </ul>
         </div>
           
             </form>
+            
 
  
  

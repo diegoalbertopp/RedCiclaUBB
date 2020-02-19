@@ -16,6 +16,13 @@
     "cordova-plugin-local-notification": {
       "ANDROID_SUPPORT_V4_VERSION": "26.+",
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   },
   "dependent_plugins": {
@@ -23,6 +30,9 @@
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     },
     "cordova-plugin-badge": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-file": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   }

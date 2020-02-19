@@ -15,6 +15,12 @@
     },
     "cordova-plugin-local-notification": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   },
   "dependent_plugins": {
@@ -22,6 +28,9 @@
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     },
     "cordova-plugin-badge": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-file": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   }
