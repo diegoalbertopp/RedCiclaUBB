@@ -790,7 +790,8 @@ directionsService.route(request, function(result, status) {
                             onionarray[j].direccion + '</h3>' +
                             '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
                             '<p>Porcentaje de llenado: ' + (onionarray[j].medicion) + '%</p>' +
-                            
+    
+                            '<button onclick="contenedores('+onionarray[j].id+')" type="button">Retirado!</button>'+
                             '</div>'
                         ])
                     }
@@ -1212,3 +1213,34 @@ document.addEventListener('deviceready', function () {
        alert('Failed because: ' + message); 
     } 
  }
+
+
+
+ function contenedores(id){
+    
+    $.ajax({ 
+    
+        method: "GET", 
+       
+        contentType: false,
+        url: 'http://192.168.18.187/redcicla/public/lleno/'+id, 
+        headers: { 
+                "Content-Type": "application/x-www-form-urlencoded"
+              
+        },
+       
+        success: function(data) {
+            var toastCenter = app.toast.create({
+                text: 'Contenedor '+id+' vaciado',
+                position: 'center',
+                closeTimeout: 1000,
+              });
+              toastCenter.open();
+            console.log (data);
+          },
+          error: function() {
+            alert("Login Failed");
+          }
+    
+      });
+    }
