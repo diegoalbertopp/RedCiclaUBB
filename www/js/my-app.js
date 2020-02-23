@@ -72,10 +72,10 @@ $$(document).on('deviceready', function() {
     console.log("Device is ready!");
     console.log("El dispositivo está listo");
 
-    
+
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    initMap();
-  
+
+
     //var watchID = navigator.geolocation.watchPosition(funcionExito, funcionError, opcionesGPS);
 });
 
@@ -94,39 +94,38 @@ var longitude;
 
 var lat2;
 var lng2;
- 
+
 
 function initMap() {
- 
+
     var directionsService = new google.maps.DirectionsService();
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     if (localStorage.getItem('sesion') == 0) {
 
         document.getElementById("cerrarSesion").style.display = "none";
-  
+
 
         $.ajax({
             async: false,
             type: "GET",
-            url: "http://192.168.18.187/redcicla/public/ult-mediciones",
+            url: "http://192.168.0.105/redcicla/public/ult-mediciones",
             dataType: "text",
 
             success: function(data) {
+
                 var onionarray = [];
                 incoming = JSON.parse(data);
                 onionarray = incoming.data;
                 var tamaño = onionarray.length;
-                console.log(tamaño);
-                console.log(onionarray[1]);
-                //console.log(data.length);
                 var icon;
                 var bounds = new google.maps.LatLngBounds();
                 var mapOptions = {
                     mapTypeId: 'roadmap',
+                    center: { lat: latitude, lng: longitude },
                     mapTypeControl: false,
                 };
-                
+
 
                 styledMapType = new google.maps.StyledMapType(
                     [{
@@ -320,89 +319,97 @@ function initMap() {
                                 "color": "#92998d"
                             }]
                         }
-                        
+
                     ]
                 );
                 map = new google.maps.Map
-              
-               (document.getElementById("map"), mapOptions);
-               directionsDisplay.setMap(map);
-               
-      
-          var latLong = new google.maps.LatLng(latitude, longitude);
-      
-          var marker = new google.maps.Marker({
-              position: latLong,
-               icon : "img/drink.png"
-            
-          });
-     
 
-function calculaRoute(){
-    var request = {
-        origin: new google.maps.LatLng(latitude,longitude),
-    destination: new google.maps.LatLng(lat2,lng2), 
-        travelMode: google.maps.TravelMode.WALKING
-       
-    };
-
-directionsService.route(request, function(result, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(result); 
-    }
-    });
-     
-}
-      
-          
-          marker.setMap(map);
-          map.setZoom(15);
-         map.setCenter(latitude,longitude);
-       // map.setCenter(marker.getPosition());
-       
+                    (document.getElementById("map"), mapOptions);
+                directionsDisplay.setMap(map);
 
 
+                var latLong = new google.maps.LatLng(latitude, longitude);
+
+                var marker = new google.maps.Marker({
+                    position: latLong,
+                    icon: "img/man.png"
+
+                });
+
+                function calculaRoute() {
+                    var request = {
+                        origin: new google.maps.LatLng(latitude, longitude),
+                        destination: new google.maps.LatLng(lat2, lng2),
+                        travelMode: google.maps.TravelMode.WALKING
+
+                    };
+
+                    directionsService.route(request, function(result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(result);
+                        }
+                    });
+
+                }
+
+                marker.setMap(map);
+                map.setZoom(15);
+                console.log("Prueba 2: " + longitude);
+                map.setCenter({ lat: latitude, lng: longitude });
                 map.mapTypes.set('styled_map', styledMapType);
                 map.setMapTypeId('styled_map');
-                
-                directionsDisplay.setOptions( { suppressMarkers: true } );
+
+                directionsDisplay.setOptions({ suppressMarkers: true });
 
                 // Multiples mascadores del mapa con su latitud y longitud
-
                 var markers = [];
                 for (var i = 0; i < tamaño; i++) {
-                    markers.push([onionarray[i].direccion, onionarray[i].latitud, onionarray[i].longitud])
-                   
+                    if (onionarray[i].estado == 1) {
+                        markers.push([onionarray[i].direccion, onionarray[i].latitud, onionarray[i].longitud, onionarray[i].tipo])
+                    }
                 }
 
                 var infoWindowContent = [];
                 for (var j = 0; j < tamaño; j++) {
-                    
-                    infoWindowContent.push(['<div class="info_content">' +
-                        '<img src="http://cdn.plataformaurbana.cl/wp-content/uploads/2015/08/plaza-de-armas-de-chilla-fuente-imagen-municipalidad-de-chillan-1000x665.jpg" width = "200" heigth = "100" >' +
-                        '<h3>' +
-                        onionarray[j].direccion + '</h3>' +
-                        '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                        '<p>Porcentaje de llenado: ' + onionarray[j].medicion + '%</p>' + 
-                        
-                        '</div>'
-                       
-                    ])
-                 
+                    var contenido;
+                    switch (onionarray[j].tipo) {
+                        case '1':
+                            contenido = "Vidrios";
+                            break;
+                        case '2':
+                            contenido = "Plásticos y PET";
+                            break;
+                        case '3':
+                            contenido = "Papeles y cartones";
+                            break;
+                        case '4':
+                            contenido = "Desechos Orgánicos";
+                            break;
+                        case '5':
+                            contenido = "Residuos Peligrosos";
+                            break;
+                        case '6':
+                            contenido = "Latas y metales";
+                            break;
+                        case '7':
+                            contenido = "Residuos eléctricos y electrónicos";
+                            break;
+                        default:
+                            break;
+                    }
+                    if (onionarray[j].estado == 1) {
+                        infoWindowContent.push(['<div class="info_content">' +
+                            '<b>' +
+                            onionarray[j].direccion + '</b><br>' +
+                            '<b>Tipo: </b>' + contenido +
+                            '<br><b>Porcentaje de llenado: </b>' + onionarray[j].medicion + '%' +
+
+                            '</div>'
+
+                        ])
+                    }
+
                 }
-               
-               /* 
-                map.addListener('click', function(e) {
-                    var lat= e.latLng.lat()
-                    var lng= e.latLng.lng();
-                    alert(lat);
-                    alert(lng);
-    
-                    calculaRoute(lat, lng);
-                    
-          
-                }); */
-                
 
                 // Agrega los marcadores al mapa
                 var infoWindow = new google.maps.InfoWindow(),
@@ -412,79 +419,108 @@ directionsService.route(request, function(result, status) {
                 for (i = 0; i < markers.length; i++) {
                     var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                     bounds.extend(position);
-                    if (i == 2) {
+                    if (markers[i][3] == 1) {
                         marker = new google.maps.Marker({
                             position: position,
                             map: map,
-                            icon: "img/container-plastico.png",
-                          
-                            title: markers[i][0]
-                        });
-                    } else {
-                        marker = new google.maps.Marker({
-                            position: position,
-                            map: map,
-                            icon: "img/container.png",
+                            icon: "img/vidrio.png",
+
                             title: markers[i][0]
                         });
                     }
-                 
+                    if (markers[i][3] == 2) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/plastico.png",
 
+                            title: markers[i][0]
+                        });
+                    }
+                    if (markers[i][3] == 3) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/papel.png",
+
+                            title: markers[i][0]
+                        });
+                    }
+                    if (markers[i][3] == 4) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/organico.png",
+
+                            title: markers[i][0]
+                        });
+                    }
+                    if (markers[i][3] == 5) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/peligroso.png",
+
+                            title: markers[i][0]
+                        });
+                    }
+                    if (markers[i][3] == 6) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/latas.png",
+
+                            title: markers[i][0]
+                        });
+                    }
+                    if (markers[i][3] == 7) {
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: "img/electrico.png",
+
+                            title: markers[i][0]
+                        });
+                    }
                     // Agrega la información a los marcadores
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                   
-                        
+
                         return function() {
                             infoWindow.setContent(infoWindowContent[i][0]);
                             infoWindow.open(map, marker);
                             marker.setAnimation(google.maps.Animation.BOUNCE);
-                            setTimeout(function(){ marker.setAnimation(null); }, 1500);
-                          
-                            //    marker.setAnimation(google.maps.Animation.BOUNCE);
-                            
-                         
+                            setTimeout(function() { marker.setAnimation(null); }, 1500);
                         }
-                       
+
                     })(marker, i));
-                
                     google.maps.event.addListener(
-                        marker, 
-                        "click", 
-                        function (e) {
-                           
-                             lat2= e.latLng.lat()
-                             lng2= e.latLng.lng();
+                        marker,
+                        "click",
+                        function(e) {
+                            console.log("Sí");
+                            lat2 = e.latLng.lat()
+                            lng2 = e.latLng.lng();
                             map.setZoom(15);
 
                             map.setCenter(marker.getPosition());
-                       
+
                         }
                     )
-                    map.fitBounds(bounds);
                 }
 
-                
-           
                 var howArrive = document.getElementById('how-arrive');
                 howArrive.addEventListener('click', function() {
-                calculaRoute();
-                infoWindow.close(map, marker);
-              
-                map.setZoom(12);
-                
+                    calculaRoute();
+                    infoWindow.close(map, marker);
+                    console.log("Calculando");
+                    map.setZoom(15);
+
                 });
-                
-                //Añadir marcador
-                /*
-                map.addListener('click', function(e) {
-                    placeMarkerAndPanTo(e.latLng, map);
-                });*/
             },
-            
         });
 
     } else {
-      
+
 
         if (localStorage.getItem('sesion') == "1") {
             document.getElementById("iniciarSesion").style.display = "none";
@@ -495,7 +531,7 @@ directionsService.route(request, function(result, status) {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: 'http://192.168.18.187/redcicla/public/api/auth/contenedor',
+                url: 'http://192.168.0.105/redcicla/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -507,16 +543,13 @@ directionsService.route(request, function(result, status) {
                     incoming = JSON.parse(data);
                     onionarray = incoming.data;
                     var tamaño = onionarray.length;
-                    console.log(tamaño);
-                    console.log(onionarray[1]);
-                    //console.log(data.length);
                     var icon;
                     var bounds = new google.maps.LatLngBounds();
                     var mapOptions = {
                         mapTypeId: 'roadmap',
-                        
+
                         mapTypeControl: false,
-                        
+
                     };
 
                     styledMapType = new google.maps.StyledMapType(
@@ -713,94 +746,112 @@ directionsService.route(request, function(result, status) {
                             }
                         ]
                     );
-                    map = new google.maps.Map
-          (document.getElementById("map"), mapOptions);
-          directionsDisplay.setMap(map);
-      
-          var latLong = new google.maps.LatLng(latitude, longitude);
-      
-          var marker = new google.maps.Marker({
-              position: latLong, 
-             icon : "img/trash.png"
-          });
-      
-          marker.setMap(map);
-          map.setZoom(15);
-          
-          directionsDisplay.setOptions( { suppressMarkers: true } );
+                    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                    directionsDisplay.setMap(map);
 
-          function calculaRoute(){
-          
-            var request = {
-                origin:  new google.maps.LatLng(latitude,longitude),
-            destination: new google.maps.LatLng(lat2,lng2), 
+                    var latLong = new google.maps.LatLng(latitude, longitude);
 
-                travelMode: google.maps.TravelMode.DRIVING,
-                avoidTolls: true
-            };
-           
-        
-        directionsService.route(request, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
+                    var marker = new google.maps.Marker({
+                        position: latLong,
+                        icon: "img/trash.png"
+                    });
 
-                directionsDisplay = new google.maps.DirectionsRenderer({                   
-                    suppressMarkers: true
-                  });
-                  directionsDisplay.setMap(map);
-           
-                directionsDisplay.setDirections(result); 
-            
-            }
-            });
-           
-          
-        }
-        
-         // map.setCenter(marker.getPosition());
+                    marker.setMap(map);
+                    map.setZoom(15);
+                    console.log("Prueba 2: " + longitude);
+                    map.setCenter({ lat: latitude, lng: longitude });
+                    map.mapTypes.set('styled_map', styledMapType);
+                    map.setMapTypeId('styled_map');
+                    directionsDisplay.setOptions({ suppressMarkers: true });
 
+                    function calculaRoute() {
+                        var request = {
+                            origin: new google.maps.LatLng(latitude, longitude),
+                            destination: new google.maps.LatLng(lat2, lng2),
 
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            avoidTolls: true
+                        };
+                        directionsService.route(request, function(result, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
 
-                   /* map = new google.maps.Map(document.getElementById('map'), {
-                        center: { lat: -36.6066399, lng: -72.1034393 },
-                        clickableIcons: false,
-                        zoomControl: false,
-                        mapTypeControl: false,
-                        streetViewControl: false,
-                        fullscreenControl: false,
-                        zoom: 15
-                    });*/
+                                directionsDisplay = new google.maps.DirectionsRenderer({
+                                    suppressMarkers: true
+                                });
+                                directionsDisplay.setMap(map);
 
+                                directionsDisplay.setDirections(result);
 
+                            }
+                        });
+                    }
                     map.mapTypes.set('styled_map', styledMapType);
                     map.setMapTypeId('styled_map');
 
-
                     // Multiples mascadores del mapa con su latitud y longitud
-
                     var markers = [];
                     for (var i = 0; i < tamaño; i++) {
-                        markers.push([onionarray[i].direccion, onionarray[i].latitud, onionarray[i].longitud])
+                        if (onionarray[i].estado == 1) {
+                            markers.push([onionarray[i].direccion, onionarray[i].latitud, onionarray[i].longitud, onionarray[i].tipo])
+                        }
                     }
 
                     var infoWindowContent = [];
                     for (var j = 0; j < tamaño; j++) {
-                        infoWindowContent.push(['<div class="info_content">' +
-                            '<img src="http://ubiobio.cl/acreditacion/sumate/assets/images/mg-4360-1042x694.jpg" width = "200" heigth = "100" >' +
-                            '<h3>' +
-                            onionarray[j].direccion + '</h3>' +
-                            '<p>Tipo de contenedor: ' + onionarray[j].tipo + '</p>' +
-                            '<p>Porcentaje de llenado: ' + (onionarray[j].medicion) + '%</p>' +
-    
-                            '<button onclick="contenedores('+onionarray[j].id+')" type="button">Retirado!</button>'+
-                            '</div>'
-                        ])
+                        var contenido;
+                        switch (onionarray[j].tipo) {
+                            case '1':
+                                contenido = "Vidrios";
+                                break;
+                            case '2':
+                                contenido = "Plásticos y PET";
+                                break;
+                            case '3':
+                                contenido = "Papeles y cartones";
+                                break;
+                            case '4':
+                                contenido = "Desechos Orgánicos";
+                                break;
+                            case '5':
+                                contenido = "Residuos Peligrosos";
+                                break;
+                            case '6':
+                                contenido = "Latas y metales";
+                                break;
+                            case '7':
+                                contenido = "Residuos eléctricos y electrónicos";
+                                break;
+                            default:
+                                break;
+                        }
+                        if (onionarray[j].estado == 1) {
+                            if (onionarray[j].lleno == 0) {
+                                infoWindowContent.push(['<div class="info_content">' +
+                                    '<b>' +
+                                    onionarray[j].direccion + '</b>' +
+                                    '<br><b>Tipo de contenedor: </b>' + contenido +
+                                    '<br><b>Porcentaje de llenado: </b>' + (onionarray[j].medicion) + '%' +
+                                    '</div>'
+                                ])
+                            } else {
+                                infoWindowContent.push(['<div class="info_content">' +
+                                    '<b>' +
+                                    onionarray[j].direccion + '</b>' +
+                                    '<br><b>Tipo de contenedor: </b>' + contenido +
+                                    '<br><b>Porcentaje de llenado: </b>' + (onionarray[j].medicion) + '%' +
+
+                                    '<br><br><button class="col button button-fill color-red" onclick="contenedores(' + onionarray[j].id + ')" type="button">Retirado</button>' +
+                                    '</div>'
+                                ])
+                            }
+                        }
                     }
-                    $$('.open-click-to-close').on('click', function () {
+                    $$('.open-click-to-close').on('click', function() {
                         notificationClickToClose.open();
-                      });
+                    });
 
                     for (var j = 0; j < tamaño; j++) {
-                        if(onionarray[j].medicion>=80){
+                        if (onionarray[j].medicion >= 80) {
                             var notificationClickToClose = app.notification.create({
                                 icon: '<i class="icon demo-icon">7</i>',
                                 title: 'Notificación',
@@ -808,122 +859,122 @@ directionsService.route(request, function(result, status) {
                                 subtitle: 'Contenedor lleno',
                                 text: 'Se ha llenado un nuevo contenedor',
                                 closeOnClick: true,
-                              })
+                            })
                         }
-                        
                     }
-
-
-                  
                     // Agrega los marcadores al mapa
                     var infoWindow = new google.maps.InfoWindow(),
                         marker, i;
                     // Coloca cada marcador en el mapa
                     //@param marker: agrega como parametro la posición, el mapa, el icono que aparecerá en el mapa y titulo.
                     for (i = 0; i < markers.length; i++) {
-        
-
                         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                         bounds.extend(position);
-                    
-                        if (i == 0) {
+                        if (markers[i][3] == 1) {
                             marker = new google.maps.Marker({
                                 position: position,
                                 map: map,
-                                icon: "img/container-plastico.png",
-                                title: markers[i][0]
-                            });
-                        } else {
-                            marker = new google.maps.Marker({
-                                position: position,
-                                map: map,
-                                icon: "img/container.png",
+                                icon: "img/vidrio.png",
+
                                 title: markers[i][0]
                             });
                         }
-                          
-                      
-                        
+                        if (markers[i][3] == 2) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/plastico.png",
+
+                                title: markers[i][0]
+                            });
+                        }
+                        if (markers[i][3] == 3) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/papel.png",
+
+                                title: markers[i][0]
+                            });
+                        }
+                        if (markers[i][3] == 4) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/organico.png",
+
+                                title: markers[i][0]
+                            });
+                        }
+                        if (markers[i][3] == 5) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/peligroso.png",
+
+                                title: markers[i][0]
+                            });
+                        }
+                        if (markers[i][3] == 6) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/latas.png",
+
+                                title: markers[i][0]
+                            });
+                        }
+                        if (markers[i][3] == 7) {
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                icon: "img/electrico.png",
+
+                                title: markers[i][0]
+                            });
+                        }
                         // Agrega la información a los marcadores
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                            
                             return function() {
-                               
                                 infoWindow.setContent(infoWindowContent[i][0]);
                                 infoWindow.open(map, marker);
                                 marker.setAnimation(google.maps.Animation.BOUNCE);
-                                setTimeout(function(){ marker.setAnimation(null); }, 1500);
-
+                                setTimeout(function() { marker.setAnimation(null); }, 1500);
                                 var toastCenter = app.toast.create({
                                     text: 'Punto seleccionado',
                                     position: 'center',
                                     closeTimeout: 1000,
-                                  });
-                                
-                                    toastCenter.open();
-                          
+                                });
+                                toastCenter.open();
                             }
-                            
                         })(marker, i));
-
-                       
-
                         google.maps.event.addListener(
-                            
-                            marker, 
-                            "click", 
-                            function (e) {
-                                
-                                 lat2= e.latLng.lat()
-                                 lng2= e.latLng.lng();
+                            marker,
+                            "click",
+                            function(e) {
+                                lat2 = e.latLng.lat()
+                                lng2 = e.latLng.lng();
                                 map.setZoom(15);
-                        
                                 map.setCenter(marker.getPosition());
-                              
-                               
-
                             }
-                          
-                           
                         )
-                     
-
-                        map.fitBounds(bounds);
                     }
                     var howArrive = document.getElementById('how-arrive');
                     howArrive.addEventListener('click', function() {
-                    calculaRoute();
-                    infoWindow.close(map, marker);
-                    map.setZoom(12);
-                    latitude=lat2;
-                    longitude=lng2;
-                  
+                        calculaRoute();
+                        infoWindow.close(map, marker);
+                        map.setZoom(12);
+                        latitude = lat2;
+                        longitude = lng2;
                     });
                 },
-
-                
-
-
                 error: function() {
                     alert("Login Failed");
                 }
-
             });
-
         }
-
-
-    }   
-
+    }
 }
-
-
-
-
-/*
- * @param
- * @return
- */
 
 function placeMarkerAndPanTo(latLng, map) {
     var marker = new google.maps.Marker({
@@ -933,15 +984,15 @@ function placeMarkerAndPanTo(latLng, map) {
     map.panTo(latLng);
 }
 
-
 var toastCenter = app.toast.create({
     text: 'Mostrando ruta',
     position: 'center',
     closeTimeout: 2000,
-  });
-  $$('.open-toast-center').on('click', function () {
+});
+
+$$('.open-toast-center').on('click', function() {
     toastCenter.open();
-  });
+});
 
 /*
  * @param Position Este método acepta un objeto Position, que contiene las coordenadas GPS actuales.
@@ -949,29 +1000,16 @@ var toastCenter = app.toast.create({
  */
 
 var onSuccess = function(position) {
-     latitude = position.coords.latitude;
-     longitude = position.coords.longitude;
-    /*alert('Latitude: '          + latitude         + '\n' +
-          'Longitude: '         + longitude         + '\n' +
-          'Altitude: '          + position.coords.altitude          + '\n' +
-          'Accuracy: '          + position.coords.accuracy          + '\n' +
-          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-          'Heading: '           + position.coords.heading           + '\n' +
-          'Speed: '             + position.coords.speed             + '\n' +
-          'Timestamp: '         + new Date(position.timestamp)      + '\n');
-*/
-          initMap();
+    latitude = parseFloat(position.coords.latitude);
+    longitude = parseFloat(position.coords.longitude);
+    initMap();
 };
 
 // onError Callback receives a PositionError object
-//
 function onError(error) {
-    alert('code: '    + error.code    + '\n' +
-          'message: ' + error.message + '\n');
+    alert('code: ' + error.code + '\n' +
+        'message: ' + error.message + '\n');
 }
-
-
-
 
 /*
  * @param error : recibe un objeto PositionError
@@ -1004,7 +1042,6 @@ var searchbar = app.searchbar.create({
     }
 });
 
-
 // Crear dynamic Sheet
 // @param  texto HTML par sheet dynamic. Puede ser útil si desea crear elementos sheet dinámicamente.
 var dynamicSheet = app.sheet.create({
@@ -1024,7 +1061,6 @@ var dynamicSheet = app.sheet.create({
         '</div>' +
         '</div>' +
         '</div>',
-    // Eventos para abrir y cerra sheet
     on: {
         open: function(sheet) {
             console.log('Sheet open');
@@ -1040,14 +1076,11 @@ $$('.convert-form-to-data').on('click', function() {
     alert(JSON.stringify(formData));
 });
 
-
-
 function enviarDatos() {
-
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.18.187/redcicla/public/solicitudes/store",
+        url: "http://192.168.0.105/redcicla/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,
@@ -1061,17 +1094,13 @@ function enviarDatos() {
             EmpresaReciclaje_idEmpresaReciclaje: document.getElementById('EmpresaReciclaje_idEmpresaReciclaje').value,
         },
         success: function(response) {
-
             console.log("exito")
-
-
         },
         error: function(err) {
             console.log("error")
         },
         complete: function() {
             console.log("completo")
-
         }
     });
 };
@@ -1082,7 +1111,7 @@ function enviar() {
     $.ajax({
         async: false,
         method: "POST",
-        url: "http://192.168.18.187/redcicla/public/api/auth/login",
+        url: "http://192.168.0.105/redcicla/public/api/auth/login",
         headers: {
             "Content-Type": "application/json"
         },
@@ -1090,46 +1119,15 @@ function enviar() {
     }).done(function(data, status) {
         localStorage.setItem('appname_token', data.token);
         localStorage.setItem('sesion', 1);
-
         console.log(data);
-
-
-        // the following part makes sure that all the requests made later with jqXHR will automatically have this header.
         $(document).ajaxSend(function(event, jqxhr, settings) {
             jqxhr.setRequestHeader('Authorization', "Bearer " + data.token);
         });
-
-
     }).fail(function(error) {
-        // handle the error
+        initMap();
     });
-
-
 };
-/*
-function contenedores(){
-    $.ajax({ 
-        async: false,
-        method: "GET", 
-        processData: false,
-        mimeType: "multipart/form-data",
-        contentType: false,
-        url: 'http://192.168.18.100/redcicla/public/api/auth/contenedor', 
-        headers: { 
-            'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+ localStorage.getItem('appname_token')
-        },
-       
-        success: function(data) {
-           
-            console.log (data);
-          },
-          error: function() {
-            alert("Login Failed");
-          }
-    
-      });
-}*/
+
 function salir() {
     document.getElementById("solicitudId").style.display = "block";
     document.getElementById("iniciarSesion").style.display = "block";
@@ -1138,12 +1136,11 @@ function salir() {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        url: 'http://192.168.18.187/redcicla/public/api/auth/logout',
+        url: 'http://192.168.0.105/redcicla/public/api/auth/logout',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
         },
-
         success: function(data) {
             localStorage.setItem('sesion', 0);
             console.log(data);
@@ -1153,94 +1150,45 @@ function salir() {
         error: function() {
             alert("Login Failed");
         }
-
     });
-
 }
-/*
 
-cordova.plugins.notification.local.hasPermission(function (granted) {
-    // console.log('Permission has been granted: ' + granted);
-});
- 
-document.addEventListener('deviceready', function () {
-    // Schedule notification for tomorrow to remember about the meeting
-    cordova.plugins.notification.local.schedule({
-        id: 10,
-        title: "Meeting in 15 minutes!",
-        text: "Jour fixe Produktionsbesprechung",
-        at: tomorrow_at_8_45_am,
-        data: { meetingId:"#123FG8" }
+function cameraTakePicture() {
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL
     });
 
-    // Join BBM Meeting when user has clicked on the notification 
-    cordova.plugins.notification.local.on("click", function (notification) {
-        if (notification.id == 10) {
-            joinMeeting(notification.data.meetingId);
-        }
-    });
+    function onSuccess(imageData) {
+        var image = document.getElementById('myImage');
+        image.src = "data:image/jpeg;base64," + imageData;
+    }
 
-    // Notification has reached its trigger time (Tomorrow at 8:45 AM)
-    cordova.plugins.notification.local.on("trigger", function (notification) {
-        if (notification.id != 10)
-            return;
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+}
 
-        // After 10 minutes update notification's title 
-        setTimeout(function () {
-            cordova.plugins.notification.local.update({
-                id: 10,
-                title: "Meeting in 5 minutes!"
-            });
-        }, 600000);
-    });
-}, false);
-*/
-
-
-
-   function cameraTakePicture() { 
-    navigator.camera.getPicture(onSuccess, onFail, {  
-       quality: 50, 
-       destinationType: Camera.DestinationType.DATA_URL 
-    });  
-    
-    function onSuccess(imageData) { 
-       var image = document.getElementById('myImage'); 
-       image.src = "data:image/jpeg;base64," + imageData; 
-    }  
-    
-    function onFail(message) { 
-       alert('Failed because: ' + message); 
-    } 
- }
-
-
-
- function contenedores(id){
-    
-    $.ajax({ 
-    
-        method: "GET", 
-       
+function contenedores(id) {
+    $.ajax({
+        method: "GET",
         contentType: false,
-        url: 'http://192.168.18.187/redcicla/public/lleno/'+id, 
-        headers: { 
-                "Content-Type": "application/x-www-form-urlencoded"
-              
+        url: 'http://192.168.0.105/redcicla/public/lleno/' + id,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
         },
-       
         success: function(data) {
             var toastCenter = app.toast.create({
-                text: 'Contenedor '+id+' vaciado',
+                text: 'El contenido del contenedor ' + id + ' ha sido retirado',
                 position: 'center',
-                closeTimeout: 1000,
-              });
-              toastCenter.open();
-            console.log (data);
-          },
-          error: function() {
+                closeTimeout: 3000,
+            });
+            toastCenter.open();
+            console.log("Retirado");
+            initMap();
+        },
+        error: function() {
             alert("Login Failed");
-          }
-    
-      });
-    }
+        }
+    });
+}

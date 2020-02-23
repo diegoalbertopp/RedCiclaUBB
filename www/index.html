@@ -10,6 +10,10 @@
         #titulo {
             margin: auto;
         }
+        
+        #how-arrive {
+            color: green;
+        }
     </style>
     <!--
       Customize this policy to fit your own app's needs. For more guidance, see:
@@ -20,7 +24,8 @@
           * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
               * Enable inline JS: add 'unsafe-inline' to default-src
       -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"> -->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <!-- Required meta tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
@@ -43,27 +48,14 @@
         <div class="panel panel-left panel-cover">
 
             <div class="block">
-                <center><img  src="img\escudo.png"></center>
+                <center><img src="img\escudo.png"></center>
 
-            
+
                 <div class="list links-list">
                     <ul>
                         <li>
-                            <a href="/notificaciones/" data-view=".page-content" data-transition="f7-cover" class="panel-close no-ripple"><img src="img\notification.png">Notificaciones</a>
+                            <a href="index" onclick="initMap()" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png">Volver al mapa</a>
                         </li>
-                        <li>
-                            <a href="index"  onclick="initMap()" data-view=".page-content" class="panel-close no-ripple"><img src="img\worldwide.png">Volver al mapa</a>
-                        </li>
-                        <!--  <li><a href="/misiones/" data-view=".page-content" class="panel-close">Misiones </a></li>-->
-                    </ul>
-                </div>
-                <div class="list links-list">
-                    <ul>
-                        <!--  <li><a href="/historial/" data-view=".page-content" class="panel-close">Historial</a></li>-->
-                        <li>
-                            <a href="/lista/" data-view=".page-content" data-transition="f7-cover" class="panel-close no-ripple"><img src="img\placeholder.png">Puntos de reciclaje</a>
-                        </li>
-                        <!--<li><a href="/configuracion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\settings.png" >Configuración</a></li>-->
                         <li>
                             <a href="/ayuda/" data-view=".page-content" class="panel-close no-ripple"><img src="img\ecology-and-environment.png">Contenedores</a>
                         </li>
@@ -73,6 +65,9 @@
 
                         <li id="iniciarSesion">
                             <a href="/sesion/" data-view=".page-content" class="panel-close no-ripple"><img src="img\login.png">Iniciar sesión</a>
+                        </li>
+                        <li id="iniciarSesion">
+                            <a href="/notificaciones/" data-view=".page-content" class="panel-close no-ripple"><img src="img\university.png">Proyecto</a>
                         </li>
                         <li>
                             <a onclick="salir()" data-view=".page-content" id="cerrarSesion" class="panel-close no-ripple"><img src="img\logout.png">Cerrar sesión</a>
@@ -95,22 +90,19 @@
                         <div id="menu" class="col-md-2">
                         </div>
                     </div>
-                    <div class="page-content">
-                        <div id="how-arrive" class="fab fab-left-top color-white">
-                            <a href="index" class="open-toast-center">
-                                 <img  src="img\route.png" alt="">
-                            </a>
-                          </div>
-                        <div class="fab fab-left-bottom color-green">
-                            <a href="index"  onclick="initMap()">
-                              <i class="icon f7-icons">plus</i>
-                            </a>
-                          </div>
-    
-                        
-                        <div id="map" style="height: 90%; "></div>
-
+                    <div id="how-arrive" class="fab fab-left-bottom color-white no-ripple">
+                        <a href="index" class="open-toast-center no-ripple">
+                            <img src="img\route.png" alt="">
+                        </a>
                     </div>
+                    <div class="fab fab-center-bottom color-white">
+                        <a href="index" onclick="initMap()">
+                            <img src="img\reload.png" alt="">
+                        </a>
+                    </div>
+
+
+                    <div id="map" style="height: 90%; "></div>
                     <div>
                     </div>
 
