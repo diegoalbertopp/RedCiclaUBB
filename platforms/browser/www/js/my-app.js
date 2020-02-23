@@ -109,7 +109,7 @@ function initMap() {
         $.ajax({
             async: false,
             type: "GET",
-            url: "http://192.168.0.105/redcicla/public/ult-mediciones",
+            url: "http://192.168.18.187/redcicla/public/ult-mediciones",
             dataType: "text",
 
             success: function(data) {
@@ -531,7 +531,7 @@ function initMap() {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: 'http://192.168.0.105/redcicla/public/api/auth/contenedor',
+                url: 'http://192.168.18.187/redcicla/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -1080,7 +1080,7 @@ function enviarDatos() {
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.0.105/redcicla/public/solicitudes/store",
+        url: "http://192.168.18.187/redcicla/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,
@@ -1111,22 +1111,34 @@ function enviar() {
     $.ajax({
         async: false,
         method: "POST",
-        url: "http://192.168.0.105/redcicla/public/api/auth/login",
+        url: "http://192.168.18.187/redcicla/public/api/auth/login",
         headers: {
             "Content-Type": "application/json"
         },
         data: JSON.stringify({ "email": email, "password": password })
     }).done(function(data, status) {
         localStorage.setItem('appname_token', data.token);
-        localStorage.setItem('sesion', 1);
-        console.log(data);
+         
+        if (typeof data.token === "undefined") {
+            
+            localStorage.setItem('sesion', 0);
+        } else{
+            localStorage.setItem('sesion', 1);
+        }
+            
+     
+       // alert('token: '+localStorage.getItem('appname_token'));
+
+        //console.log(data);
         $(document).ajaxSend(function(event, jqxhr, settings) {
             jqxhr.setRequestHeader('Authorization', "Bearer " + data.token);
         });
     }).fail(function(error) {
-        initMap();
+      
     });
 };
+
+
 
 function salir() {
     document.getElementById("solicitudId").style.display = "block";
@@ -1136,14 +1148,14 @@ function salir() {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        url: 'http://192.168.0.105/redcicla/public/api/auth/logout',
+        url: 'http://192.168.18.187/redcicla/public/api/auth/logout',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
         },
         success: function(data) {
             localStorage.setItem('sesion', 0);
-            console.log(data);
+            //console.log(data);
             initMap();
 
         },
@@ -1173,7 +1185,7 @@ function contenedores(id) {
     $.ajax({
         method: "GET",
         contentType: false,
-        url: 'http://192.168.0.105/redcicla/public/lleno/' + id,
+        url: 'http://192.168.18.187/redcicla/public/lleno/' + id,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
