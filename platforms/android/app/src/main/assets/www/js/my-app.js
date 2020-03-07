@@ -76,6 +76,7 @@ $$(document).on('deviceready', function() {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
 
+
     //var watchID = navigator.geolocation.watchPosition(funcionExito, funcionError, opcionesGPS);
 });
 
@@ -109,7 +110,7 @@ function initMap() {
         $.ajax({
             async: false,
             type: "GET",
-            url: "http://192.168.18.187/redcicla/public/ult-mediciones",
+            url: "http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/ult-mediciones",
             dataType: "text",
 
             success: function(data) {
@@ -521,6 +522,12 @@ function initMap() {
 
     } else {
 
+        var toastCenter = app.toast.create({
+            text: 'Bienvenido!',
+            position: 'center',
+            closeTimeout: 3000,
+        });
+        toastCenter.open();
 
         if (localStorage.getItem('sesion') == "1") {
             document.getElementById("iniciarSesion").style.display = "none";
@@ -531,7 +538,7 @@ function initMap() {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: 'http://192.168.18.187/redcicla/public/api/auth/contenedor',
+                url: '"http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -1080,7 +1087,7 @@ function enviarDatos() {
     $.ajax({
         async: false,
         type: "POST",
-        url: "http://192.168.18.187/redcicla/public/solicitudes/store",
+        url: "http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/solicitudes/store",
         data: {
             nombre: document.getElementById('nombre').value,
             apellido: document.getElementById('apellido').value,
@@ -1111,19 +1118,27 @@ function enviar() {
     $.ajax({
         async: false,
         method: "POST",
-        url: "http://192.168.18.187/redcicla/public/api/auth/login",
+        url: "http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/api/auth/login",
         headers: {
             "Content-Type": "application/json"
         },
         data: JSON.stringify({ "email": email, "password": password })
     }).done(function(data, status) {
         localStorage.setItem('appname_token', data.token);
+        
          
         if (typeof data.token === "undefined") {
             
-            localStorage.setItem('sesion', 0);
+          //  localStorage.setItem('sesion', 0);
+       //   window.open('sesion.html', '_self', 'location=no');
+       window.location="sesion.html"
+     
+      
         } else{
+            
             localStorage.setItem('sesion', 1);
+          
+         
         }
             
      
@@ -1148,7 +1163,7 @@ function salir() {
         processData: false,
         mimeType: "multipart/form-data",
         contentType: false,
-        url: 'http://192.168.18.187/redcicla/public/api/auth/logout',
+        url: 'http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/api/auth/logout',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
@@ -1185,7 +1200,7 @@ function contenedores(id) {
     $.ajax({
         method: "GET",
         contentType: false,
-        url: 'http://192.168.18.187/redcicla/public/lleno/' + id,
+        url: 'http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/lleno/' + id,
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
