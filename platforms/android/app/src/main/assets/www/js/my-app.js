@@ -538,7 +538,7 @@ function initMap() {
                 processData: false,
                 mimeType: "multipart/form-data",
                 contentType: false,
-                url: '"http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/api/auth/contenedor',
+                url: 'http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/api/auth/contenedor',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('appname_token')
