@@ -26,6 +26,7 @@
         <preference name="BackupWebStorage" value="none" />
     </platform>
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="phonegap-version" value="cli-7.1.0" />
     <platform name="android">
         <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />
