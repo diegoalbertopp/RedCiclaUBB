@@ -523,7 +523,7 @@ function initMap() {
     } else {
 
         var toastCenter = app.toast.create({
-            text: 'Bienvenido!',
+            text: 'Bienvenido',
             position: 'center',
             closeTimeout: 3000,
         });
@@ -1084,6 +1084,7 @@ $$('.convert-form-to-data').on('click', function() {
 });
 
 function enviarDatos() {
+
     $.ajax({
         async: false,
         type: "POST",
@@ -1097,14 +1098,13 @@ function enviarDatos() {
             detalle: document.getElementById('detalle').value,
             email: document.getElementById('correo').value,
             telefono: document.getElementById('telefono').value,
-            fecha: document.getElementById('fecha').value,
             EmpresaReciclaje_idEmpresaReciclaje: document.getElementById('EmpresaReciclaje_idEmpresaReciclaje').value,
         },
         success: function(response) {
             console.log("exito")
         },
         error: function(err) {
-            console.log("error")
+            console.log("err")
         },
         complete: function() {
             console.log("completo")
@@ -1125,31 +1125,31 @@ function enviar() {
         data: JSON.stringify({ "email": email, "password": password })
     }).done(function(data, status) {
         localStorage.setItem('appname_token', data.token);
-        
-         
+
+
         if (typeof data.token === "undefined") {
-            
-          //  localStorage.setItem('sesion', 0);
-       //   window.open('sesion.html', '_self', 'location=no');
-       window.location="sesion.html"
-     
-      
-        } else{
-            
+
+            //  localStorage.setItem('sesion', 0);
+            //   window.open('sesion.html', '_self', 'location=no');
+            window.location = "sesion.html"
+
+
+        } else {
+
             localStorage.setItem('sesion', 1);
-          
-         
+
+
         }
-            
-     
-       // alert('token: '+localStorage.getItem('appname_token'));
+
+
+        // alert('token: '+localStorage.getItem('appname_token'));
 
         //console.log(data);
         $(document).ajaxSend(function(event, jqxhr, settings) {
             jqxhr.setRequestHeader('Authorization', "Bearer " + data.token);
         });
     }).fail(function(error) {
-      
+
     });
 };
 
@@ -1216,6 +1216,51 @@ function contenedores(id) {
         },
         error: function() {
             alert("Login Failed");
+        }
+    });
+}
+
+function ok() {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: 'http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/comuna',
+        dataType: "text",
+        success: function(data) {
+            incoming = JSON.parse(data);
+            onionarray = incoming.data;
+            var tamaño = onionarray.length;
+            document.getElementById("ciudad").options.length = 0;
+            for (var i = 0; i < tamaño; i++) {
+                $("#ciudad").append('<option value=' + onionarray[i].comuna + '>' + onionarray[i].comuna + '</option>');
+            }
+        },
+        error: function(data) {
+            alert('error');
+        }
+    });
+}
+
+function ok2() {
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: 'http://parra.chillan.ubiobio.cl:8075/pablo.cortes1501/public/ciudad',
+        dataType: "text",
+        success: function(data) {
+            incoming = JSON.parse(data);
+            onionarray = incoming.data;
+            var tamaño = onionarray.length;
+            var comuna = document.getElementById("ciudad").value;
+            document.getElementById("EmpresaReciclaje_idEmpresaReciclaje").options.length = 0;
+            for (var i = 0; i < tamaño; i++) {
+                if (onionarray[i].comuna == comuna) {
+                    $("#EmpresaReciclaje_idEmpresaReciclaje").append('<option value=' + onionarray[i].id + '>' + onionarray[i].nombre + '</option>');
+                }
+            }
+        },
+        error: function(data) {
+            alert('error');
         }
     });
 }
