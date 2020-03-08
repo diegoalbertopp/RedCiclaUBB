@@ -1099,9 +1099,18 @@ function enviarDatos() {
             telefono: document.getElementById('telefono').value,
             fecha: document.getElementById('fecha').value,
             EmpresaReciclaje_idEmpresaReciclaje: document.getElementById('EmpresaReciclaje_idEmpresaReciclaje').value,
+            
         },
         success: function(response) {
             console.log("exito")
+            var toastCenter = app.toast.create({
+                text: 'Solicitud enviada',
+                position: 'center',
+                closeTimeout: 3000,
+            });
+            toastCenter.open();
+            console.log("Retirado");
+           
         },
         error: function(err) {
             console.log("error")
