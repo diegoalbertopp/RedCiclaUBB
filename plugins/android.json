@@ -7,17 +7,17 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "cl.ubiobio.redcicla"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "cl.ubiobio.redcicla"
-    },
     "cordova-plugin-camera": {
       "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     },
     "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "cl.ubiobio.redcicla"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "cl.ubiobio.redcicla"
     }
   },

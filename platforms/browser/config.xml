@@ -17,6 +17,5 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="http:///" />
     <allow-intent href="https:///" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
     <preference name="DisallowOverscroll" value="true" />
 </widget>

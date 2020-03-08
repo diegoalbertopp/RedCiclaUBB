@@ -1,44 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
-    "id": "cordova-plugin-geolocation.geolocation",
-    "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "clobbers": [
-      "navigator.geolocation"
-    ]
-  },
-  {
-    "id": "cordova-plugin-geolocation.PositionError",
-    "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-    "pluginId": "cordova-plugin-geolocation",
-    "runs": true
-  },
-  {
-    "id": "cordova-plugin-device.device",
-    "file": "plugins/cordova-plugin-device/www/device.js",
-    "pluginId": "cordova-plugin-device",
-    "clobbers": [
-      "device"
-    ]
-  },
-  {
-    "id": "cordova-plugin-badge.Badge",
-    "file": "plugins/cordova-plugin-badge/www/badge.js",
-    "pluginId": "cordova-plugin-badge",
-    "clobbers": [
-      "cordova.plugins.notification.badge"
-    ]
-  },
-  {
-    "id": "cordova-plugin-local-notification.LocalNotification",
-    "file": "plugins/cordova-plugin-local-notification/www/local-notification.js",
-    "pluginId": "cordova-plugin-local-notification",
-    "clobbers": [
-      "cordova.plugins.notification.local"
-    ]
-  },
-  {
     "id": "cordova-plugin-camera.Camera",
     "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
     "pluginId": "cordova-plugin-camera",
@@ -258,19 +220,30 @@ module.exports = [
     "clobbers": [
       "window.FileTransfer"
     ]
+  },
+  {
+    "id": "cordova-plugin-geolocation.geolocation",
+    "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "clobbers": [
+      "navigator.geolocation"
+    ]
+  },
+  {
+    "id": "cordova-plugin-geolocation.PositionError",
+    "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "runs": true
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-  "cordova-plugin-geolocation": "4.0.1",
-  "cordova-plugin-whitelist": "1.3.4",
-  "cordova-plugin-device": "2.0.3",
-  "cordova-plugin-badge": "0.8.8",
-  "cordova-plugin-local-notification": "0.9.0-beta.3",
   "cordova-plugin-camera": "4.1.0",
   "cordova-plugin-file": "6.0.2",
-  "cordova-plugin-file-transfer": "1.7.1"
+  "cordova-plugin-file-transfer": "1.7.1",
+  "cordova-plugin-geolocation": "4.0.2",
+  "cordova-plugin-whitelist": "1.3.4"
 };
 // BOTTOM OF METADATA
 });
